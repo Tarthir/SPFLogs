@@ -50,18 +50,16 @@ def read_file(f, my_tests):
                 my_log = log.LogHolder(matches.group(1), matches.group(2), matches.group(3), grp6, matches.group(8))
                 my_tests.add_test(my_log)
             except AttributeError as error:
-                sys.stderr.write("Error: %s" % str(error))
+                sys.stderr.write("Error: %s\n" % str(error))
 ################################################################
 
-#for file in query_files:
- #   try:
 with open(query_file,"rb") as f:
+    print("Compiling log data...\n")
     if f.name.endswith(".log"):
         read_file(f, my_tests)
 with open(domain_file, "rb") as f:
+    print("Checking SPF validation...\n")
     my_tests.check_spf(f)
-#    except IOError or AttributeError as err:
- #       sys.stderr.write("LogScraper: %s\n" % str(err))
 # sort by the timestamps at the end
 my_tests.list_sorter()
 my_tests.save()
