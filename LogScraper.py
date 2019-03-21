@@ -5,7 +5,7 @@ import LogHolder as log
 import TestsHolder as tests
 
 # This file goes through log files that have been grepped to be apart of the spf-testset
-
+#files: /home/tannort5/Tanner/2019_validation_testing/server_no_duplicates/updated_servers_all_columns.txt
 # group 1: Data!
 # group 2: Timestamp!
 # group 3: timestamp pt2!
@@ -33,6 +33,9 @@ import TestsHolder as tests
 # group 9: flags
 # group 10: our erver ip address
 regex = re.compile(r"^([0-9-]+)T([0-9:]+).([0-9:]+-[0-9]+:[0-9]+) (\S+) \S+ client (@0x\S+) (.*)#([0-9]*) \((.*)\): .* -(.*) \((.*)\)")
+if len(sys.argv) < 3:
+    sys.stderr.write("Usage: python LogScraper.py <query.log file> <true_Domains.txt>\n")
+    exit(1)
 query_file = sys.argv[1]
 domain_file = sys.argv[2]
 my_tests = tests.TestsHolder()
