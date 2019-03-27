@@ -3,9 +3,15 @@ import pickle
 
 
 class TestsHolder:
-    def __init__(self) -> None:
-        self.all_tests = {}
+    def __init__(self,optional_ending=""):
+        self.optional_ending = optional_ending  # used to dynamically make new files
         self.genned_names_seen = {}
+        self.all_tests = {}
+
+    def re_intialize(self, optional_ending):
+        self.optional_ending = optional_ending  # used to dynamically make new files
+        self.genned_names_seen = {}
+        self.all_tests = {}
 
     # Adds log objects into the list of log objects associated with one of the twenty two test cases.
     def add_test(self, log):
@@ -30,16 +36,20 @@ class TestsHolder:
     # Save the logs to a file
     def save(self):
         if self.all_tests:
-            binary_file = open("all_logs.log", mode='wb')
+            binary_file = open("all_logs" + self.optional_ending + ".log", mode='wb')
             pickle.dump(self.all_tests, binary_file)
             binary_file.close()
 
     # Load the logs back into memory
     def load(self):
         try:
-            self.all_tests = pickle.load(open("all_logs.log", "rb"))
+            self.all_tests = pickle.load(open("all_logs" + self.optional_ending + ".log", "rb"))
         except IOError:
             sys.stderr.write("Error: No file exists to be loaded\n")
+
+    # Empties out all objects to get ready for a new set of files to be made
+    def load_new(self, ending):
+        self.re_intialize(ending)
 
     # The files may not have totally unique data if you run it with the same data more than once
     def check_spf(self, my_f):
@@ -59,6 +69,7 @@ class TestsHolder:
             # print tuple as string
             f.write(str((line[0], line[1], line[2], line[3])))
             f.write("\n")
+
 
 
 

@@ -18,7 +18,8 @@ class LogHolder:
         idx = tmp.index("spf-test") # spf-test is always at index 3
         # check to see if our tmp is too short to contain all the info it should
         if idx - 2 < 0 or idx - 3 < 0:
-            raise AttributeError(str(tmp) + "\n" + "Passed regex but is not in correct format! Missing parameters")
+            # TODO put these in their own special files
+            self.write_special_case(tmp)
         self.test_name = tmp[idx - 3]
         return tmp[idx - 2]
 
@@ -28,3 +29,7 @@ class LogHolder:
         m = micro_seconds.split("-")
         my_date = datetime.datetime(int(d[0]),int(d[1]),int(d[2]),int(h[0]),int(h[1]),int(h[2]),int(m[0]))
         return (my_date-datetime.datetime(1970,1,1)).total_seconds()
+
+    def write_special_case(self, tmp):
+        with open("special_cases.log", "a") as f:
+            f.write("%s - %s" % (self.ip, str(tmp) + "\n"))

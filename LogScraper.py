@@ -2,7 +2,7 @@ import os
 import re
 import sys
 import gzip
-import shutil
+from datetime import time
 import LogHolder as log
 import TestsHolder as tests
 
@@ -30,6 +30,20 @@ query_file = sys.argv[1]
 domain_file = sys.argv[2]
 my_tests = tests.TestsHolder()
 my_tests.load()
+number_of_files = 1
+#start = time.time()
+
+# Run by the scheduler to see if our data has gotten too big
+#def increment_files(number_of_files):
+#    number_of_files += 1
+
+
+#def check_size():
+#    my_tests.save()
+#    giga_byte_size = 1000000000
+ #   if os.stat(query_file).st_size >= giga_byte_size:
+ #       my_tests.load_new(str(number_of_files))
+ #       increment_files(number_of_files)
 
 
 # go through a queries.log file and parse out every line
@@ -38,8 +52,6 @@ def read_file(f, my_tests):
         line = line.decode('utf-8').strip()
         matches = re.match(regex, line)
         if matches is not None:
-            #grp6 = matches.group(6)
-            # TODO add other groups
             try:
                 my_log = log.LogHolder(matches)
                 my_tests.add_test(my_log)
@@ -51,8 +63,8 @@ def open_file(f, test_holder):
     print("Compiling log data...\n")
     read_file(f, test_holder)
 
-################################################################
 
+################################################################
 
 if ".gz" in query_file:
     with gzip.open(query_file, "rb") as f:
@@ -64,6 +76,7 @@ else:
 with open(domain_file, "rb") as f:
     print("Checking SPF validation...\n")
     my_tests.check_spf(f)
+
 # sort by the timestamps at the end
 my_tests.list_sorter()
 my_tests.save()
