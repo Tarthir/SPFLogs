@@ -15,12 +15,15 @@ class LogHolder:
     # Gets the generated name we made from the domain_name
     def get_generated_name(self, domain_name):
         tmp = domain_name.split(".")
-        idx = tmp.index("spf-test") # spf-test is always at index 3
-        # check to see if our tmp is too short to contain all the info it should
-        if idx - 2 < 0 or idx - 3 < 0:
-            self.write_special_case(tmp)
-        self.test_name = tmp[idx - 3]
-        return tmp[idx - 2]
+        try:
+            idx = tmp.index("spf-test") # spf-test is always at index 3
+            # check to see if our tmp is too short to contain all the info it should
+            if idx - 2 < 0 or idx - 3 < 0:
+                self.write_special_case(tmp)
+            self.test_name = tmp[idx - 3]
+            return tmp[idx - 2]
+        except ValueError as error:
+            sys.stderr.write("Error: %s\n" % str(error))
 
     def seconds_from(self, date, hour, micro_seconds):
         d = date.split("-")
