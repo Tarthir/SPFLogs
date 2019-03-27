@@ -1,4 +1,5 @@
 import datetime
+import sys
 
 # This class acts as a data holder for each individual query we get. It stores all pertinent information
 class LogHolder:
@@ -22,7 +23,7 @@ class LogHolder:
             self.test_name = tmp[idx - 3]
             return tmp[idx - 2]
         except ValueError as error:
-            print(str(tmp))
+            sys.stderr.write("Error: %s\n" % str(error))
 
     def seconds_from(self, date, hour, micro_seconds):
         d = date.split("-")
