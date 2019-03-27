@@ -14,7 +14,6 @@ class TestsHolder:
                 self.all_tests[log.test_name] = []
             self.all_tests[log.test_name].append(log)
             self.add_genned_name(log.generated_name)
-            #self.output_3_tuples(log.domain_name, log.generated_name, log.ip) #TODO not doing this anymore? Just from the domainfile?
         else:
             sys.stderr.write("Error: log parameter cannot be Nof type None\n")
 
@@ -40,8 +39,9 @@ class TestsHolder:
         try:
             self.all_tests = pickle.load(open("all_logs.log", "rb"))
         except IOError:
-            sys.stderr.write("Error: IO_Error in load\n")
+            sys.stderr.write("Error: No file exists to be loaded\n")
 
+    # The files may not have totally unique data if you run it with the same data more than once
     def check_spf(self, my_f):
         f = open("validated.log", "a")
         f2 = open("unvalidated.log", "a")

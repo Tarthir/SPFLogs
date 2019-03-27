@@ -1,24 +1,26 @@
-import sys
 import datetime
 
-import pytz as pytz
 
-
+# This class acts as a data holder for each individual query we get. It stores all pertinent information
 class LogHolder:
-    def __init__(self, date, hour, micro_seconds, ip, domain_name):
-        self.ip = ip
-        self.domain_name = domain_name
+    def __init__(self, matches):
+        self.ip = matches.group(6)
+        self.port = matches.group(7)
+        self.servername = matches.group(4)
         self.test_name = None
-        self.generated_name = self.get_generated_name()
-        self.sec_from_1970 = self.seconds_from(date, hour, micro_seconds)
-    def get_generated_name(self):
-        tmp = self.domain_name.split(".")
-        for i in range(len(tmp)):
-            if "test" in tmp[i] and i != 0:  # testXX is always after the generated name and is not the first in array
-                self.test_name = tmp[i - 2]
-                return tmp[i - 1]
-        if self.test_name is None:
-            raise AttributeError("No test name found, passed regex but is not in correct format")
+        self.generated_name = self.get_generated_name(matches.group(8))
+        # run this later?
+        self.sec_from_1970 = self.seconds_from(matches.group(1), matches.group(2), matches.group(3))
+
+    # Gets the generated name we made from the domain_name
+    def get_generated_name(self, domain_name):
+        tmp = domain_name.split(".")
+        idx = tmp.index("spf-test") # spf-test is always at index 3
+        # check to see if our tmp is too short to contain all the info it should
+        if idx - 2 < 0 or idx - 3 < 0:
+            raise AttributeError(str(tmp) + "\n" + "Passed regex but is not in correct format! Missing parameters")
+        self.test_name = tmp[idx - 3]
+        return tmp[idx - 2]
 
     def seconds_from(self, date, hour, micro_seconds):
         d = date.split("-")
