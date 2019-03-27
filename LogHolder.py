@@ -1,5 +1,5 @@
 import datetime
-
+import sys
 
 # This class acts as a data holder for each individual query we get. It stores all pertinent information
 class LogHolder:
