@@ -73,6 +73,10 @@ with open(domain_file, "rb") as f:
     print("Checking SPF validation...\n")
     my_tests.check_spf(f)
 
+print("SPF check done!\n")
 # sort by the timestamps at the end
+print("Sorting...\n")
 my_tests.list_sorter()
+print("Saving...\n")
 my_tests.save()
+print("Script Complete!\n")
