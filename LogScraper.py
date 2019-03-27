@@ -8,10 +8,6 @@ import TestsHolder as tests
 
 # This file goes through log files that have been grepped to be apart of the spf-testset
 #files: /home/tannort5/Tanner/2019_validation_testing/server_no_duplicates/updated_servers_all_columns.txt
-#TODO save data to multiple files, dependent on size of files
-#TODO add option of additional regexes/use split
-
-# TODO if not regexing will need to grep for what we want
 # group 1: Date!
 # group 2: Timestamp!
 # group 3: timestamp pt2!

@@ -18,7 +18,6 @@ class LogHolder:
         idx = tmp.index("spf-test") # spf-test is always at index 3
         # check to see if our tmp is too short to contain all the info it should
         if idx - 2 < 0 or idx - 3 < 0:
-            # TODO put these in their own special files
             self.write_special_case(tmp)
         self.test_name = tmp[idx - 3]
         return tmp[idx - 2]

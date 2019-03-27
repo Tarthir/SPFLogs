@@ -65,7 +65,7 @@ class TestsHolder:
         f.close()
         f2.close()
 
-    def output_4_tuples(self, line, f):  # TODO have a file for each test? Ask for a filepath at start?
+    def output_4_tuples(self, line, f):
             # print tuple as string
             f.write(str((line[0], line[1], line[2], line[3])))
             f.write("\n")
