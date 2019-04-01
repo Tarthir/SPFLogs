@@ -42,6 +42,7 @@ number_of_files = 1
  #       increment_files(number_of_files)
 
 
+# TODO GREP for .ball. and .spf-test. in queries.log
 # go through a queries.log file and parse out every line
 def read_file(f, my_tests):
     for line in f.readlines():

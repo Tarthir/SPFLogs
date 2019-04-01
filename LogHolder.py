@@ -1,6 +1,7 @@
 import datetime
 import sys
 
+
 # This class acts as a data holder for each individual query we get. It stores all pertinent information
 class LogHolder:
     def __init__(self, matches):
@@ -14,12 +15,21 @@ class LogHolder:
 
     # Gets the generated name we made from the domain_name
     def get_generated_name(self, domain_name):
-        tmp = domain_name.split(".")
+        if "org" in domain_name:
+            # split everything but the .org
+            tmp = domain_name.split(".", domain_name.count(".") - 1)
+        else:
+            tmp = domain_name.split(".")
         try:
             idx = tmp.index("spf-test") # spf-test is always at index 3
             # check to see if our tmp is too short to contain all the info it should
-            if idx - 2 < 0 or idx - 3 < 0:
-                self.write_special_case(tmp)
+            if idx < 3:  # if the idx is not what it should be
+                if idx == 2:  # if we are missing just the test name
+                    self.test_name = None
+                    return tmp[idx - 2]
+                elif idx <= 1:  # if we are missing a randomized name
+                    self.write_special_case(tmp)
+                    return None
             self.test_name = tmp[idx - 3]
             return tmp[idx - 2]
         except ValueError as error:
@@ -34,4 +44,4 @@ class LogHolder:
 
     def write_special_case(self, tmp):
         with open("special_cases.log", "a") as f:
-            f.write("%s - %s" % (self.ip, str(tmp) + "\n"))
+            f.write("%s - %s" % (self.ip, ' '.join(tmp) + "\n"))

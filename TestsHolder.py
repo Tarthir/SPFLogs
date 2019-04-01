@@ -15,7 +15,7 @@ class TestsHolder:
 
     # Adds log objects into the list of log objects associated with one of the twenty two test cases.
     def add_test(self, log):
-        if log is not None:
+        if log is not None or log.generated_name is not None:
             if log.test_name not in self.all_tests:
                 self.all_tests[log.test_name] = []
             self.all_tests[log.test_name].append(log)
@@ -67,7 +67,7 @@ class TestsHolder:
 
     def output_4_tuples(self, line, f):
             # print tuple as string
-            f.write(str((line[0], line[1], line[2], line[3])))
+            f.write("{} {} {} {}".format(line[0], line[1], line[2], line[3]))
             f.write("\n")
 
 
