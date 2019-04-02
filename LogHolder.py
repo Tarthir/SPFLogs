@@ -21,6 +21,8 @@ class LogHolder:
         else:
             tmp = domain_name.split(".")
         try:
+            tmp = [item.lower() for item in tmp] # make everything lowercase
+            # TODO make this case insensitive
             idx = tmp.index("spf-test") # spf-test is always at index 3
             # check to see if our tmp is too short to contain all the info it should
             if idx < 3:  # if the idx is not what it should be

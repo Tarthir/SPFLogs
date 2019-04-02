@@ -17,7 +17,7 @@ import TestsHolder as tests
 # group 7: client port
 # group 8: The query!
 # group 9: our server ip address
-regex = re.compile(r"^([0-9-]+)T([0-9:]+).([0-9:]+-[0-9]+:[0-9]+) (\S+) \S+ client (@0x\S+) (.*)#([0-9]*) \((.*)\) .* \((.*)\)")
+regex = re.compile(r"^([0-9-]+)T([0-9:]+).([0-9:]+-[0-9]+:[0-9]+) (\S+) \S+ client (@0x\S+) (.*)#([0-9]*) \((.*)\) .* \((.*)\)", re.IGNORECASE)
 if len(sys.argv) < 3:
     sys.stderr.write("Usage: python LogScraper.py <query.log file> <true_Domains.txt>\n")
     exit(1)
@@ -42,7 +42,7 @@ number_of_files = 1
  #       increment_files(number_of_files)
 
 
-# TODO GREP for .ball. and .spf-test. in queries.log
+# TODO GREP for .ball. and .spf-test. in queries.log with case insensitivity!!!!! Next task
 # go through a queries.log file and parse out every line
 def read_file(f, my_tests):
     for line in f.readlines():
