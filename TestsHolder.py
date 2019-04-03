@@ -39,11 +39,16 @@ class TestsHolder:
             binary_file = open("all_logs" + self.optional_ending + ".log", mode='wb')
             pickle.dump(self.all_tests, binary_file)
             binary_file.close()
+        if self.genned_names_seen:
+            binary_file = open("genned_names_seen" + self.optional_ending + ".log", mode='wb')
+            pickle.dump(self.genned_names_seen, binary_file)
+            binary_file.close()
 
     # Load the logs back into memory
     def load(self):
         try:
             self.all_tests = pickle.load(open("all_logs" + self.optional_ending + ".log", "rb"))
+            self.genned_names_seen = pickle.load(open("genned_names_seen" + self.optional_ending + ".log", "rb"))
         except IOError:
             sys.stderr.write("Error: No file exists to be loaded\n")
 

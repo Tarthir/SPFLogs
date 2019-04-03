@@ -21,7 +21,7 @@ regex = re.compile(r"^([0-9-]+)T([0-9:]+).([0-9:]+-[0-9]+:[0-9]+) (\S+) \S+ clie
 if len(sys.argv) < 3:
     sys.stderr.write("Usage: python LogScraper.py <query.log file> <true_Domains.txt>\n")
     exit(1)
-
+# TODO test the new grepped files
 query_file = sys.argv[1]
 domain_file = sys.argv[2]
 my_tests = tests.TestsHolder()
