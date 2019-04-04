@@ -1,13 +1,11 @@
-import os
 import re
 import sys
 import gzip
-from datetime import time
 import LogHolder as log
 import TestsHolder as tests
 
 # This file goes through log files that have been grepped to be apart of the spf-testset
-#files: /home/tannort5/Tanner/2019_validation_testing/server_no_duplicates/updated_servers_all_columns.txt
+# For Regex matches:
 # group 1: Date!
 # group 2: Timestamp!
 # group 3: timestamp pt2!
@@ -17,6 +15,8 @@ import TestsHolder as tests
 # group 7: client port
 # group 8: The query!
 # group 9: our server ip address
+##
+# Ignore case in the regex
 regex = re.compile(r"^([0-9-]+)T([0-9:]+).([0-9:]+-[0-9]+:[0-9]+) (\S+) \S+ client (@0x\S+) (.*)#([0-9]*) \((.*)\) .* \((.*)\)", re.IGNORECASE)
 if len(sys.argv) < 3:
     sys.stderr.write("Usage: python LogScraper.py <query.log file> <true_Domains.txt>\n")
@@ -27,23 +27,9 @@ domain_file = sys.argv[2]
 my_tests = tests.TestsHolder()
 my_tests.load()
 number_of_files = 1
-#start = time.time()
-
-# Run by the scheduler to see if our data has gotten too big
-#def increment_files(number_of_files):
-#    number_of_files += 1
 
 
-#def check_size():
-#    my_tests.save()
-#    giga_byte_size = 1000000000
- #   if os.stat(query_file).st_size >= giga_byte_size:
- #       my_tests.load_new(str(number_of_files))
- #       increment_files(number_of_files)
-
-
-# TODO GREP for .ball. and .spf-test. in queries.log with case insensitivity!!!!! Next task
-# go through a queries.log file and parse out every line
+# go through a queries.log file and parse out every line grabbing pertinent data
 def read_file(f, my_tests):
     for line in f.readlines():
         line = line.decode('utf-8').strip()

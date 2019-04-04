@@ -69,7 +69,7 @@ class TestsHolder:
                 self.output_4_tuples(line, f2)
         f.close()
         f2.close()
-
+    
     def output_4_tuples(self, line, f):
             # print tuple as string
             f.write("{} {} {} {}".format(line[0], line[1], line[2], line[3]))

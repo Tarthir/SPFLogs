@@ -10,7 +10,6 @@ class LogHolder:
         self.servername = matches.group(4)
         self.test_name = None
         self.generated_name = self.get_generated_name(matches.group(8))
-        # run this later?
         self.sec_from_1970 = self.seconds_from(matches.group(1), matches.group(2), matches.group(3))
 
     # Gets the generated name we made from the domain_name
@@ -37,6 +36,7 @@ class LogHolder:
         except ValueError as error:
             sys.stderr.write("Error: %s\n" % str(error))
 
+    # Take the date that we got and convert it into seconds for sorting purposes
     def seconds_from(self, date, hour, micro_seconds):
         d = date.split("-")
         h = hour.split(":")
