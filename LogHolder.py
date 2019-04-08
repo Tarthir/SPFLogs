@@ -11,7 +11,7 @@ class LogHolder:
         self.test_name = None
         self.generated_name = self.get_generated_name(matches.group(8))
         self.sec_from_1970 = self.seconds_from(matches.group(1), matches.group(2), matches.group(3))
-        self.rec_queried = matches(9)
+        self.rec_queried = matches.group(9)
 
     # Gets the generated name we made from the domain_name
     def get_generated_name(self, domain_name):
