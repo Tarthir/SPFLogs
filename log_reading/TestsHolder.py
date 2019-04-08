@@ -3,13 +3,7 @@ import pickle
 
 
 class TestsHolder:
-    def __init__(self,optional_ending=""):
-        self.optional_ending = optional_ending  # used to dynamically make new files
-        self.genned_names_seen = {}
-        self.all_tests = {}
-
-    def re_intialize(self, optional_ending):
-        self.optional_ending = optional_ending  # used to dynamically make new files
+    def __init__(self):
         self.genned_names_seen = {}
         self.all_tests = {}
 
@@ -36,30 +30,26 @@ class TestsHolder:
     # Save the logs to a file
     def save(self):
         if self.all_tests:
-            binary_file = open("all_logs" + self.optional_ending + ".log", mode='wb')
+            binary_file = open("data/all_logs.log", mode='wb')
             pickle.dump(self.all_tests, binary_file)
             binary_file.close()
         if self.genned_names_seen:
-            binary_file = open("genned_names_seen" + self.optional_ending + ".log", mode='wb')
+            binary_file = open("data/genned_names_seen.log", mode='wb')
             pickle.dump(self.genned_names_seen, binary_file)
             binary_file.close()
 
     # Load the logs back into memory
     def load(self):
         try:
-            self.all_tests = pickle.load(open("all_logs" + self.optional_ending + ".log", "rb"))
-            self.genned_names_seen = pickle.load(open("genned_names_seen" + self.optional_ending + ".log", "rb"))
+            self.all_tests = pickle.load(open("data/all_logs.log", "rb"))
+            self.genned_names_seen = pickle.load(open("data/genned_names_seen.log", "rb"))
         except IOError:
             sys.stderr.write("Error: No file exists to be loaded\n")
 
-    # Empties out all objects to get ready for a new set of files to be made
-    def load_new(self, ending):
-        self.re_intialize(ending)
-
     # The files may not have totally unique data if you run it with the same data more than once
     def check_spf(self, my_f):
-        f = open("validated.log", "a")
-        f2 = open("unvalidated.log", "a")
+        f = open("data/validated.log", "a")
+        f2 = open("data/unvalidated.log", "a")
         for line in my_f.readlines():
             line = line.decode("utf-8").rstrip()
             line = line.split(" ")

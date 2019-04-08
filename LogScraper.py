@@ -1,8 +1,7 @@
 import re
 import sys
 import gzip
-import LogHolder as log
-import TestsHolder as tests
+from log_reading import LogHolder as log, TestsHolder as tests
 
 # This file goes through log files that have been grepped to be apart of the spf-testset
 # For Regex matches:
@@ -29,7 +28,7 @@ my_tests = tests.TestsHolder()
 my_tests.load()
 number_of_files = 1
 
-
+# TODO parse query to get level data in log objects
 # go through a queries.log file and parse out every line grabbing pertinent data
 def read_file(f, my_tests):
     for line in f.readlines():

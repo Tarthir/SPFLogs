@@ -46,5 +46,5 @@ class LogHolder:
         return (my_date-datetime.datetime(1970,1,1)).total_seconds()
 
     def write_special_case(self, tmp):
-        with open("special_cases.log", "a") as f:
+        with open("data/special_cases.log", "a") as f:
             f.write("%s - %s" % (self.ip, ' '.join(tmp) + "\n"))
