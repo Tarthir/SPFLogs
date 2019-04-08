@@ -29,6 +29,7 @@ my_tests.load()
 number_of_files = 1
 
 # TODO parse query to get level data in log objects
+# TODO Make sure we grab tcp data for t18, see email
 # go through a queries.log file and parse out every line grabbing pertinent data
 def read_file(f, my_tests):
     for line in f.readlines():
