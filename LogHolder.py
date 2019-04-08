@@ -7,10 +7,11 @@ class LogHolder:
     def __init__(self, matches):
         self.ip = matches.group(6)
         self.port = matches.group(7)
-        self.servername = matches.group(4)
+        self.server_name = matches.group(4)
         self.test_name = None
         self.generated_name = self.get_generated_name(matches.group(8))
         self.sec_from_1970 = self.seconds_from(matches.group(1), matches.group(2), matches.group(3))
+        self.rec_queried = matches(9)
 
     # Gets the generated name we made from the domain_name
     def get_generated_name(self, domain_name):
@@ -24,7 +25,7 @@ class LogHolder:
             # TODO make this case insensitive
             idx = tmp.index("spf-test") # spf-test is always at index 3
             # check to see if our tmp is too short to contain all the info it should
-            if idx < 3:  # if the idx is not what it should be
+            if idx < 3:  # if the idx of "spf-test" is not what it should be normally
                 if idx == 2:  # if we are missing just the test name
                     self.test_name = None
                     return tmp[idx - 2]

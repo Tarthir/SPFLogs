@@ -14,10 +14,11 @@ import TestsHolder as tests
 # group 6: client ip address
 # group 7: client port
 # group 8: The query!
-# group 9: our server ip address
+# group 9: The record asked for
+# group 10: our server ip address
 ##
 # Ignore case in the regex
-regex = re.compile(r"^([0-9-]+)T([0-9:]+).([0-9:]+-[0-9]+:[0-9]+) (\S+) \S+ client (@0x\S+) (.*)#([0-9]*) \((.*)\) .* \((.*)\)", re.IGNORECASE)
+regex = re.compile(r"^([0-9-]+)T([0-9:]+).([0-9:]+-[0-9]+:[0-9]+) (\S+) \S+ client (@0x\S+) (.*)#([0-9]*) \((.*)\) .* IN (\S+).* \((.*)\)", re.IGNORECASE)
 if len(sys.argv) < 3:
     sys.stderr.write("Usage: python LogScraper.py <query.log file> <true_Domains.txt>\n")
     exit(1)
@@ -42,7 +43,7 @@ def read_file(f, my_tests):
                 sys.stderr.write("Error: %s\n" % str(error))
 
 
-def open_file(f, test_holder):
+def open_file(f, test_holder):-
     print("Compiling log data...\n")
     read_file(f, test_holder)
 
