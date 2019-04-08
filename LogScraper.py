@@ -43,7 +43,7 @@ def read_file(f, my_tests):
                 sys.stderr.write("Error: %s\n" % str(error))
 
 
-def open_file(f, test_holder):-
+def open_file(f, test_holder):
     print("Compiling log data...\n")
     read_file(f, test_holder)
 
