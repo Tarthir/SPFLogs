@@ -1,7 +1,8 @@
 from log_reading import TestsHolder as tests
 from validation import Test02, Test06, Test13, Test17, Test08, Test12, Test14, Test19, Test21, Test04, Test03, Test10, \
     Test18, Test16, Test22, Test11, Test05, Test07, Test09, Test01, Test20, Test15
-
+import sys
+import os
 #  This script is in charge of checking to see how far in the validation process each email server got for
 # each particular test
 method_name = "check_testing"
@@ -17,7 +18,12 @@ validation_testing_dict = {"t01": Test01.Test01(), "t02": Test02.Test02(), "t03"
 # TODO start with t05
 holder = tests.TestsHolder()
 print("Loading the data...")
-holder.load()  # load up all the data
+dir_path = os.path.dirname(os.path.realpath(__file__))
+holder.load(dir_path)  # load up all the data
+
+if not holder.all_tests:
+    print("No file was loaded! Exiting...")
+    exit(-1)
 
 print("Entering Validation loop...\n")
 

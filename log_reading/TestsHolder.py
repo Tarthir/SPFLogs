@@ -1,5 +1,6 @@
 import sys
 import pickle
+import os
 
 
 class TestsHolder:
@@ -39,10 +40,12 @@ class TestsHolder:
             binary_file.close()
 
     # Load the logs back into memory
-    def load(self):
+    def load(self, dir_path):
+        all_logs_path = dir_path + "/data/all_logs.log"
+        genned_logs_path = dir_path + "/data/genned_names_seen.log"
         try:
-            self.all_tests = pickle.load(open("data/all_logs.log", "rb"))
-            self.genned_names_seen = pickle.load(open("data/genned_names_seen.log", "rb"))
+            self.all_tests = pickle.load(open(all_logs_path, "rb"))
+            self.genned_names_seen = pickle.load(open(genned_logs_path, "rb"))
         except IOError:
             sys.stderr.write("Error: No file exists to be loaded\n")
 

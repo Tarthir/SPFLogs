@@ -2,7 +2,7 @@ import re
 import sys
 import gzip
 from log_reading import LogHolder as log, TestsHolder as tests
-
+import os
 # This file goes through log files that have been grepped to be apart of the spf-testset
 # For Regex matches:
 # group 1: Date!
@@ -17,19 +17,19 @@ from log_reading import LogHolder as log, TestsHolder as tests
 # group 10: our server ip address
 ##
 # Ignore case in the regex
-regex = re.compile(r"^([0-9-]+)T([0-9:]+).([0-9:]+-[0-9]+:[0-9]+) (\S+) \S+ client (@0x\S+) (.*)#([0-9]*) \((.*)\) .* IN (\S+).* \((.*)\)", re.IGNORECASE)
+regex = re.compile(r"^([0-9-]+)T([0-9:]+).([0-9:]+-[0-9]+:[0-9]+) (\S+) \S+ client (@0x\S+) (.*)#([0-9]*) \((.*)\) .* IN (.*) \((.*)\)", re.IGNORECASE)
 if len(sys.argv) < 3:
     sys.stderr.write("Usage: python LogScraper.py <query.log file> <true_Domains.txt>\n")
     exit(1)
-# TODO test the new grepped files
+
 query_file = sys.argv[1]
 domain_file = sys.argv[2]
 my_tests = tests.TestsHolder()
-my_tests.load()
+dir_path = os.path.dirname(os.path.realpath(__file__))
+my_tests.load(dir_path)
 number_of_files = 1
 
-# TODO parse query to get level data in log objects
-# TODO Make sure we grab tcp data for t18, see email
+
 # go through a queries.log file and parse out every line grabbing pertinent data
 def read_file(f, my_tests):
     for line in f.readlines():

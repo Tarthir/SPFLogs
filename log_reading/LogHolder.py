@@ -9,12 +9,15 @@ class LogHolder:
         self.port = matches.group(7)
         self.server_name = matches.group(4)
         self.test_name = None
-        self.generated_name = self.get_generated_name(matches.group(8))
+        self.generated_name = None
+        self.level = None
+        self.parse_query(matches.group(8))
         self.sec_from_1970 = self.seconds_from(matches.group(1), matches.group(2), matches.group(3))
-        self.rec_queried = matches.group(9)
+        record_arr = matches.group(9).strip().split(" ")  # if there is the "T" for tcp we want to grab it
+        self.rec_queried, self.tcp = self.check_record(record_arr)
 
     # Gets the generated name we made from the domain_name
-    def get_generated_name(self, domain_name):
+    def parse_query(self, domain_name):
         if "org" in domain_name:
             # split everything but the .org
             tmp = domain_name.split(".", domain_name.count(".") - 1)
@@ -22,18 +25,23 @@ class LogHolder:
             tmp = domain_name.split(".")
         try:
             tmp = [item.lower() for item in tmp] # make everything lowercase
-            # TODO make this case insensitive
             idx = tmp.index("spf-test") # spf-test is always at index 3
+            gen_idx = idx - 2
+            test_name_idx = idx - 3
+
             # check to see if our tmp is too short to contain all the info it should
             if idx < 3:  # if the idx of "spf-test" is not what it should be normally
                 if idx == 2:  # if we are missing just the test name
                     self.test_name = None
-                    return tmp[idx - 2]
+                    self.generated_name = tmp[gen_idx]
                 elif idx <= 1:  # if we are missing a randomized name
                     self.write_special_case(tmp)
-                    return None
-            self.test_name = tmp[idx - 3]
-            return tmp[idx - 2]
+                    self.generated_name = None
+            self.test_name = tmp[test_name_idx]
+            self.generated_name = tmp[gen_idx]
+            # if there is a level as part of the query
+            if (idx - 3) == 1:
+                self.level = tmp[0]
         except ValueError as error:
             sys.stderr.write("Error: %s\n" % str(error))
 
@@ -48,3 +56,9 @@ class LogHolder:
     def write_special_case(self, tmp):
         with open("data/special_cases.log", "a") as f:
             f.write("%s - %s" % (self.ip, ' '.join(tmp) + "\n"))
+
+    # This method checks the array passed in to see if it contains a T in the 2nd position which signifies TCP
+    def check_record(self, record_arr):
+        if len(record_arr) == 1:
+            return record_arr[0], None
+        return record_arr[0], record_arr[1]
