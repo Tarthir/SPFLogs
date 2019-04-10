@@ -2,5 +2,5 @@
 
 class Test21():
 
-    def check_testing(self, log_list, test_name):
+    def check_testing(self, log, test_name):
         pass
