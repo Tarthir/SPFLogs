@@ -33,7 +33,7 @@ class TestsHolder:
     def load(self, dir_path):
         all_logs_path = dir_path + "/data/all_logs.log"
         try:
-            print("Loading logs from memory...")
+            print("Loading logs from memory...\n")
             self.all_tests = pickle.load(open(all_logs_path, "rb"))
         except IOError:
             sys.stderr.write("Error: No file exists to be loaded\n")
@@ -45,11 +45,12 @@ class TestsHolder:
         # Grab the generated names and put into a list
         key_list = list(self.all_tests.keys())
         genned_names = [key_list[i].split("_")[1] for i in range(len(key_list))]
+        gen_dict = dict(zip(genned_names, [None] * len(genned_names)))  # Put in dict to speedup lookup below
         # Output the 4-tuples
         for line in my_f.readlines():
             line = line.decode("utf-8").rstrip()
             line = line.split(" ")
-            if line[2] in genned_names:
+            if line[2] in gen_dict:
                 self.output_4_tuples(line, valid)
             else:
                 self.output_4_tuples(line, invalid)
