@@ -5,23 +5,17 @@ import os
 
 class TestsHolder:
     def __init__(self):
-        self.genned_names_seen = {}
         self.all_tests = {}
 
     # Adds log objects into the list of log objects associated with one of the twenty two test cases.
     def add_test(self, log):
         if log is not None or log.generated_name is not None:
-            if log.test_name not in self.all_tests:
-                self.all_tests[log.test_name] = []
-            self.all_tests[log.test_name].append(log)
-            self.add_genned_name(log.generated_name)
+            key = log.test_name + "_" + log.generated_name
+            if key not in self.all_tests:
+                self.all_tests[key] = []
+            self.all_tests[key].append(log)
         else:
             sys.stderr.write("Error: log parameter cannot be Nof type None\n")
-
-    # keeps track of a list of generated names we have seen
-    def add_genned_name(self, generated_name):
-        if generated_name not in self.genned_names_seen:
-            self.genned_names_seen[generated_name] = True
 
     # Sort the list of queries by their timestamp
     def list_sorter(self):
@@ -34,34 +28,32 @@ class TestsHolder:
             binary_file = open("data/all_logs.log", mode='wb')
             pickle.dump(self.all_tests, binary_file)
             binary_file.close()
-        if self.genned_names_seen:
-            binary_file = open("data/genned_names_seen.log", mode='wb')
-            pickle.dump(self.genned_names_seen, binary_file)
-            binary_file.close()
 
     # Load the logs back into memory
     def load(self, dir_path):
         all_logs_path = dir_path + "/data/all_logs.log"
-        genned_logs_path = dir_path + "/data/genned_names_seen.log"
         try:
             self.all_tests = pickle.load(open(all_logs_path, "rb"))
-            self.genned_names_seen = pickle.load(open(genned_logs_path, "rb"))
         except IOError:
             sys.stderr.write("Error: No file exists to be loaded\n")
 
     # The files may not have totally unique data if you run it with the same data more than once
     def check_spf(self, my_f):
-        f = open("data/validated.log", "a")
-        f2 = open("data/unvalidated.log", "a")
+        valid = open("data/validated.log", "a")
+        invalid = open("data/invalidated.log", "a")
+        # Grab the generated names and put into a list
+        key_list = list(self.all_tests.keys())
+        genned_names = [key_list[i].split("_")[1] for i in range(len(key_list))]
+        # Output the 4-tuples
         for line in my_f.readlines():
             line = line.decode("utf-8").rstrip()
             line = line.split(" ")
-            if line[2] in self.genned_names_seen:
-                self.output_4_tuples(line, f)
+            if line[2] in genned_names:
+                self.output_4_tuples(line, valid)
             else:
-                self.output_4_tuples(line, f2)
-        f.close()
-        f2.close()
+                self.output_4_tuples(line, invalid)
+        valid.close()
+        invalid.close()
     
     def output_4_tuples(self, line, f):
             # print tuple as string

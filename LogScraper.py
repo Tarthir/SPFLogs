@@ -29,7 +29,6 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 my_tests.load(dir_path)
 number_of_files = 1
 
-# TODO store everything by gen_testnum in a dict
 # go through a queries.log file and parse out every line grabbing pertinent data
 def read_file(f, my_tests):
     for line in f.readlines():

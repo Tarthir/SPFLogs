@@ -1,6 +1,7 @@
+import validation.TestBase as BaseClass
 
 
-class Test04():
+class Test04(BaseClass.TestBase):
 
-    def check_testing(self, log, test_name):
+    def check_testing(self, log_list):
         pass

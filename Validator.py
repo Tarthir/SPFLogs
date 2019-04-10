@@ -15,9 +15,8 @@ validation_testing_dict = {"t01": Test01.Test01(), "t02": Test02.Test02(), "t03"
                            "t19": Test19.Test19(), "t20": Test20.Test20(), "t21": Test21.Test21(),
                            "t22": Test22.Test22()}
 
-# TODO start with t05
 holder = tests.TestsHolder()
-print("Loading the data...")
+print("Time To Validate...\n\nLoading the data...")
 dir_path = os.path.dirname(os.path.realpath(__file__))
 holder.load(dir_path)  # load up all the data
 
@@ -27,7 +26,11 @@ if not holder.all_tests:
 
 print("Entering Validation loop...\n")
 
-for test_name in holder.all_tests.keys():
-    logs = holder.all_tests[test_name]
-    print("Checking %s...\n" % test_name)
-    validation_testing_dict[test_name].check_testing(logs)
+for key in holder.all_tests.keys():
+    logs = holder.all_tests[key]
+    print("Checking %s...\n" % key)
+    test_num = key.split("_")[0]
+    try:
+        validation_testing_dict[test_num].check_testing(logs)
+    except KeyError as err:
+        sys.stderr.write("Validating KeyError with: %s\n" % str(err))
