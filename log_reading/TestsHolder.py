@@ -33,6 +33,7 @@ class TestsHolder:
     def load(self, dir_path):
         all_logs_path = dir_path + "/data/all_logs.log"
         try:
+            print("Loading logs from memory...")
             self.all_tests = pickle.load(open(all_logs_path, "rb"))
         except IOError:
             sys.stderr.write("Error: No file exists to be loaded\n")
