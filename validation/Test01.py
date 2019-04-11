@@ -15,7 +15,7 @@ class Test01(BaseClass.TestBase):
         endline = "\n"
         
         for entry in log_list:                  # find if we have a txt query
-            if entry.rec_type == TXT:
+            if entry.rec_type.upper() == TXT:
                 first_txt_time = entry.sec_from_1970
                 break
 
@@ -24,12 +24,12 @@ class Test01(BaseClass.TestBase):
         if first_txt_time is not None:
             for entry in log_list:
                 if entry.sec_from_1970 < first_txt_time: #entries that came before first txt
-                    if entry.rec_type is not TXT:
+                    if entry.rec_type.upper() is not TXT:
                         bg_value = "BG"
                         before_value = "BEFORE"
                         continue
                 if entry.sec_from_1970 > first_txt_time: #entries that came after first txt
-                    if entry.rec_type is not TXT:
+                    if entry.rec_type.upper() is not TXT:
                         bg_value = "BG"
                         after_value = "AFTER"
                         continue
@@ -37,7 +37,7 @@ class Test01(BaseClass.TestBase):
 
         else:                                   # does not contain TXT query
             for entry in log_list:
-                if entry.rec_type is not TXT:
+                if entry.rec_type.upper() is not TXT or entry.rec_type.upper() is not SPF:
                     bg_value = "BG"
                     break
 
