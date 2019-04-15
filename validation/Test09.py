@@ -8,17 +8,20 @@ from validation.States.FailureState import FailureState
 # meaning lets have a dict for each test, we can add states as needed?
 class Test09(TestBase):
 
+    def __init__(self):
+        TestBase.__init__(self)
+
     def get_test_result(self):
         pass
 
     def do_testing(self, log_list):
-        pass
+        return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
         if isinstance(self.state, StartState) and log.level == "TXT":
             self.state = BaseState(log, None)
         elif (isinstance(self.state, BaseState) or isinstance(self.state,SuccessState)) and log.level != "l10":
-            self.state = FailureState(log, None)
+            self.state = FailureState(log, None)  # TODO can' get to l10 without doing the levels beforehand right?
         elif isinstance(self.state, FailureState) and log.level == "l10":
             self.state = SuccessState(log, None)
 
