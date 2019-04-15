@@ -1,16 +1,22 @@
-import validation.TestBase as BaseClass
-import validation.States as MyEnum
+from validation.TestBase import TestBase
+from validation.States.BaseState import BaseState
+from validation.States.SuccessState import SuccessState
+from validation.States.StartState import StartState
+from validation.States.FailureState import FailureState
 
 
-class Test06(BaseClass.TestBase):
+class Test06(TestBase):
 
-    def check_testing(self, log_list):
-        self.state = MyEnum.States.START
-        for log in log_list:
-            if self.state == MyEnum.States.START and log.rec_queried == "TXT":
-                self.state = MyEnum.States.BASE
-            elif log.rec_queried == "b" and self.state == MyEnum.States.BASE:
-                self.state = MyEnum.States.SUCCESS
-            elif self.state == MyEnum.States.SUCCESS and log.rec_queried == "c": # TODO does this work? Do i need to look for other queries after?
-                return MyEnum.States.FAIL
-        return self.state
+    def get_test_result(self):
+        pass
+
+    def do_testing(self, log_list):
+        return TestBase.check_testing(self, log_list, self.test_def)
+
+    def test_def(self, log):
+        if isinstance(self.state, StartState) and log.rec_queried == "TXT":
+            self.state = BaseState(log, None)
+        elif log.rec_queried == "b" and isinstance(self.state,BaseState):
+            self.state = SuccessState(log, None)
+        elif isinstance(self.state, SuccessState) and log.rec_queried == "c":
+            self.state = FailureState(log, None)
