@@ -11,7 +11,7 @@ class Test09(TestBase):
     def __init__(self):
         TestBase.__init__(self)
 
-    def get_test_result(self):
+    def get_test_result(self, log, log_list):
         pass
 
     def do_testing(self, log_list):
@@ -19,9 +19,9 @@ class Test09(TestBase):
 
     def test_def(self, log):
         if isinstance(self.state, StartState) and log.level == "TXT":
-            self.state = BaseState(log, None)
+            self.state = BaseState(log, self.get_test_result)
         elif (isinstance(self.state, BaseState) or isinstance(self.state,SuccessState)) and log.level != "l10":
-            self.state = FailureState(log, None)  # TODO can' get to l10 without doing the levels beforehand right?
+            self.state = FailureState(log, self.get_test_result)  # TODO can' get to l10 without doing the levels beforehand right?
         elif isinstance(self.state, FailureState) and log.level == "l10":
-            self.state = SuccessState(log, None)
+            self.state = SuccessState(log, self.get_test_result)
 

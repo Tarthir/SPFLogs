@@ -9,7 +9,7 @@ class Test05(TestBase):
     def __init__(self):
         TestBase.__init__(self, self.test_def)
         
-    def get_test_result(self):
+    def get_test_result(self, log, log_list):
         pass
 
     def do_testing(self, log_list):
@@ -19,6 +19,6 @@ class Test05(TestBase):
     def test_def(self, log):
         # b means we have succeeded, all other queries are fine, no need to check
         if isinstance(self.state, StartState) and log.rec_queried == "TXT":
-            self.state = BaseState(log, None)
-        if isinstance(self.state, BaseState) and log.level == "b":
-            self.state = SuccessState(log, None)
+            self.state = BaseState(log, self.get_test_result)
+        elif isinstance(self.state, BaseState) and log.level == "b":
+            self.state = SuccessState(log, self.get_test_result)

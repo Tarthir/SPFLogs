@@ -10,16 +10,16 @@ class TestBase(ABC):
 
     @abstractmethod
     def do_testing(self, log_list):
-        return TestBase.check_testing(self, log_list())
+        return TestBase.check_testing(self, log_list)
 
     # called my subclasses to check current state of test
     # PARAM: func - the function which will be passed a log object the current state and is compared
     # to the state this log object would place the test in
     def check_testing(self, log_list):
-        self.state = StartState(log_list[0])
+        self.state = StartState(log_list[0], self.get_test_result)  #TODO needs to be given the actual method
         for log in log_list:
             self.test_def(log)
-        return self.state.get_result(log_list)
+        return self.state.get_final_result(log_list)
 
     # This method is the definition of the test. Basically you pass in a query(log) and this method
     # changes self.state to reflect where in the test we are currently for a given test number.
@@ -28,5 +28,5 @@ class TestBase(ABC):
         pass
 
     @abstractmethod
-    def get_test_result(self):
+    def get_test_result(self, log, log_list):
         pass

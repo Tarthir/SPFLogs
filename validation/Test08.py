@@ -9,7 +9,7 @@ class Test08(TestBase):
     def __init__(self):
         TestBase.__init__(self, self.test_def)
 
-    def get_test_result(self):
+    def get_test_result(self, log, log_list):
         pass
 
     def do_testing(self, log_list):
@@ -17,6 +17,6 @@ class Test08(TestBase):
 
     def test_def(self, log):
         if isinstance(self.state, StartState) and log.rec_queried == "TXT":
-            self.state = SuccessState(log, None)
+            self.state = SuccessState(log, self.get_test_result)
         elif isinstance(self.state, SuccessState) and log.level == "b":
-            self.state = FailureState(log, None)
+            self.state = FailureState(log, self.get_test_result)

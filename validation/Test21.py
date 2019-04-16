@@ -12,5 +12,5 @@ class Test21(TestBase):
     def test_def(self, log):
         pass
 
-    def get_test_result(self):
+    def get_test_result(self, log, log_list):
         pass
