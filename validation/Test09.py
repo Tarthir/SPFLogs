@@ -22,9 +22,8 @@ class Test09(TestBase):
             self.state = BaseState(log, self.get_test_result)
         elif (isinstance(self.state, BaseState) or isinstance(self.state, SuccessState)) and log.level != "l10" \
                 and log.rec_queried == "TXT":
-
             self.state = FailureState(log, self.get_test_result)
-            # TODO can' get to l10 without doing the levels beforehand right?
         elif isinstance(self.state, FailureState) and log.level == "l10" and log.rec_queried == "TXT":
             self.state = SuccessState(log, self.get_test_result)
-
+        # TODO lowercase for "TXT/A/etc"??
+        # TODO result example: got to less than 10, 10, or more than 10

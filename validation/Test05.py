@@ -20,5 +20,7 @@ class Test05(TestBase):
         # b means we have succeeded, all other queries are fine, no need to check
         if isinstance(self.state, StartState) and log.rec_queried == "TXT":
             self.state = BaseState(log, self.get_test_result)
-        elif isinstance(self.state, BaseState) and log.level == "b" and log.rec_queried == "A":
+        elif isinstance(self.state, BaseState) and log.level == "b" and (log.rec_queried == "A" or log.rec_queried == "AAAA"):
             self.state = SuccessState(log, self.get_test_result)
+            # TODO queries can come out of order
+

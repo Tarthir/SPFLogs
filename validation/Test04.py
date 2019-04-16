@@ -24,7 +24,7 @@ class Test04(TestBase):
 
     # https://github.com/byu-imaal/Tanner/blob/master/quartet_backup_sept07_2018/validation/post_swaks_parsing/scratch/definitions/t04.dot.png
     def test_def(self, log):
-
+        # TODO everything that checks for "A" need to check for "AAAA" as well except when specified
         if isinstance(self.state, StartState) and log.rec_queried == "TXT":
             self.state = BaseState(log, self.get_test_result)
 
