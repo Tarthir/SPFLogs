@@ -1,3 +1,4 @@
+import sys
 from abc import ABC, abstractmethod
 
 
@@ -13,10 +14,13 @@ class SuperState(ABC):
         if self.get_result_method is not None:
             file_name = "validation_results/{}_results.txt".format(self.ending_log.test_name)
             with open(file_name, "a+") as f:
-                res = self.get_result_method(self.ending_log, log_list)
-                if res is not None:
-                    f.write(res)
-                    f.flush()
+                try:
+                    res = self.get_result_method(self.ending_log, log_list)
+                    if res is not None:
+                        f.write(res)
+                        f.flush()
+                except TypeError as err:
+                    sys.stderr.write(str(err))
         else:
             print("SuperState: No get Result method given, please give state objects get_result method(s)")
 
