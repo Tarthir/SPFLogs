@@ -13,9 +13,10 @@ class SuperState(ABC):
         if self.get_result_method is not None:
             file_name = "validation_results/{}_results.txt".format(self.ending_log.test_name)
             with open(file_name, "a+") as f:
-                f.write(self.get_result_method(self.ending_log, log_list))
-                f.flush()
-                f.close()
+                res = self.get_result_method(self.ending_log, log_list)
+                if res is not None:
+                    f.write(res)
+                    f.flush()
         else:
             print("SuperState: No get Result method given, please give state objects get_result method(s)")
 

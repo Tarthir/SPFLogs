@@ -11,7 +11,7 @@ import validation.States as s
 class Test09(TestBase):
 
     def __init__(self):
-        TestBase.__init__(self)
+        TestBase.__init__(self, self.test_def)
 
     def get_test_result(self, log, log_list):
         return TestBase.get_test_result(self, log, log_list)
