@@ -72,6 +72,9 @@ class Test04(TestBase):
             self.state = do_state_change("parallel", log, self.dyn_classes)  # Success
 
     def get_test_result(self, log, log_list):
-        pass
+        return TestBase.get_test_result(self, log, log_list)
+
+
+
 
 

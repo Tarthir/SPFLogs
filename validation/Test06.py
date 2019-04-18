@@ -13,7 +13,7 @@ class Test06(TestBase):
         TestBase.__init__(self, self.test_def)
 
     def get_test_result(self, log, log_list):
-        pass
+        return TestBase.get_test_result(self, log, log_list)
 
     def do_testing(self, log_list):
         return TestBase.check_testing(self, log_list)

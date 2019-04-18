@@ -23,4 +23,4 @@ class Test12(TestBase):
             self.state = FailureState(log, self.get_test_result)
 
     def get_test_result(self, log, log_list):
-        pass
+        return TestBase.get_test_result(self, log, log_list)

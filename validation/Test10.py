@@ -27,4 +27,4 @@ class Test10(TestBase):
                 self.state = SuccessState(log, self.get_test_result)
 
     def get_test_result(self, log, log_list):
-        pass
+        return TestBase.get_test_result(self, log, log_list)
