@@ -1,4 +1,4 @@
-from validation.States.SuperState import SuperState
+from validation.state_objs.SuperState import SuperState
 
 
 # https://stackoverflow.com/questions/15247075/how-can-i-dynamically-create-derived-classes-from-a-base-class
@@ -29,3 +29,7 @@ def do_state_change(name, log, dyn):
     new_state = dyn[name]
     new_state.ending_log = log
     return new_state
+
+
+def check_a(rec):
+    return rec == s.States.A or rec == s.States.AAAA

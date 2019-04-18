@@ -23,6 +23,7 @@ class States(enum.Enum):
     SOA = "SOA"
     SRV = "SRV"
     URI = "URI"
+    TXT = "TXT"
 
     # Enums are levels
     lv1 = "l1"

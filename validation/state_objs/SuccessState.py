@@ -1,4 +1,4 @@
-from validation.States import SuperState as Sup
+from validation.state_objs import SuperState as Sup
 
 
 class SuccessState(Sup.SuperState):

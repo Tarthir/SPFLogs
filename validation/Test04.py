@@ -1,8 +1,10 @@
 from validation.TestBase import TestBase
-from validation.States.StartState import StartState
-from validation.States.BaseState import BaseState
-from validation.States.StateUtils import get_class
-from validation.States.StateUtils import do_state_change
+from validation.state_objs.StartState import StartState
+from validation.state_objs.BaseState import BaseState
+from validation.state_objs.StateUtils import get_class
+from validation.state_objs.StateUtils import do_state_change
+from validation.state_objs.StateUtils import check_a
+import validation.States as s
 
 
 class Test04(TestBase):
@@ -24,50 +26,49 @@ class Test04(TestBase):
 
     # https://github.com/byu-imaal/Tanner/blob/master/quartet_backup_sept07_2018/validation/post_swaks_parsing/scratch/definitions/t04.dot.png
     def test_def(self, log):
-        # TODO everything that checks for "A" need to check for "AAAA" as well except when specified
-        if isinstance(self.state, StartState) and log.rec_queried == "TXT":
+        if isinstance(self.state, StartState) and log.rec_queried == s.States.TXT:
             self.state = BaseState(log, self.get_test_result)
 
-        elif isinstance(self.state, BaseState) and log.level == "l1" and log.rec_queried == "TXT":
+        elif isinstance(self.state, BaseState) and log.level == "l1" and log.rec_queried == s.States.TXT:
             self.state = do_state_change("l1", log, self.dyn_classes)
-        elif isinstance(self.state, BaseState) and log.level == "b" and log.rec_queried == "A":
+        elif isinstance(self.state, BaseState) and log.level == "b" and check_a(log.rec_queried):
             self.state = do_state_change("b_to4_a", log, self.dyn_classes)
-        elif isinstance(self.state, BaseState) and log.level == "l2" and log.rec_queried == "TXT":
+        elif isinstance(self.state, BaseState) and log.level == "l2" and log.rec_queried == s.States.TXT:
             self.state = do_state_change("l2", log, self.dyn_classes)
-        elif isinstance(self.state, BaseState) and log.level == "l3" and log.rec_queried == "TXT":
+        elif isinstance(self.state, BaseState) and log.level == "l3" and log.rec_queried == s.States.TXT:
             self.state = do_state_change("l3", log, self.dyn_classes)
 
         elif self.state.name == "l1":
-            if log.level == "l2" and log.rec_queried == "TXT":
+            if log.level == "l2" and log.rec_queried == s.States.TXT:
                 self.state = do_state_change("l2", log, self.dyn_classes)
-            elif log.level == "l3" and log.rec_queried == "TXT":
+            elif log.level == "l3" and log.rec_queried == s.States.TXT:
                 self.state = do_state_change("l3", log, self.dyn_classes)
-            elif log.level == "b_to4_a" and log.rec_queried == "A":
+            elif log.level == "b_to4_a" and check_a(log.rec_queried):
                 self.state = do_state_change("b_to4_a", log, self.dyn_classes)
 
-        elif self.state.name == "l3" and log.level == "b" and log.rec_queried == "A":
+        elif self.state.name == "l3" and log.level == "b" and check_a(log.rec_queried):
             self.state = do_state_change("serial", log, self.dyn_classes)  # Success
 
-        elif self.state.name == "l2" and log.level == "b" and log.rec_queried == "TXT":
+        elif self.state.name == "l2" and log.level == "b" and log.rec_queried == s.States.TXT:
             self.state = do_state_change("maybe_serial", log, self.dyn_classes)  # Success
 
-        elif self.state.name == "maybe_serial" and log.level == "l3" and log.rec_queried == "TXT":
+        elif self.state.name == "maybe_serial" and log.level == "l3" and log.rec_queried == s.States.TXT:
             self.state = do_state_change("delayed_parallel", log, self.dyn_classes)  # Success
 
         elif self.state.name == "b_to4_a":
-            if log.level == "l1" and log.rec_queried == "TXT":
+            if log.level == "l1" and log.rec_queried == s.States.TXT:
                 self.state = do_state_change("p_l1", log, self.dyn_classes)
-            elif log.level == "l2" and log.rec_queried == "TXT":
+            elif log.level == "l2" and log.rec_queried == s.States.TXT:
                 self.state = do_state_change("p_l2")
-            elif log.level == "l3" and log.rec_queried == "TXT":
+            elif log.level == "l3" and log.rec_queried == s.States.TXT:
                 self.state = do_state_change("parallel", log, self.dyn_classes)  # Success
 
         elif self.state.name == "p_l1":
-            if log.rec_queried == "l2" and log.rec_queried == "TXT":
+            if log.rec_queried == "l2" and log.rec_queried == s.States.TXT:
                 self.state = do_state_change("p_l2")
-            elif log.level == "l3" and log.rec_queried == "TXT":
+            elif log.level == "l3" and log.rec_queried == s.States.TXT:
                 self.state = do_state_change("parallel", log, self.dyn_classes)  # Success
-        elif self.state.name == "p_l2" and log.level == "l3" and log.rec_queried == "TXT":
+        elif self.state.name == "p_l2" and log.level == "l3" and log.rec_queried == s.States.TXT:
             self.state = do_state_change("parallel", log, self.dyn_classes)  # Success
 
     def get_test_result(self, log, log_list):

@@ -1,8 +1,9 @@
 from validation.TestBase import TestBase
-from validation.States.SuccessState import SuccessState
-from validation.States.StartState import StartState
-from validation.States.BaseState import BaseState
-from validation.States.FailureState import FailureState
+from validation.state_objs.SuccessState import SuccessState
+from validation.state_objs.StartState import StartState
+from validation.state_objs.BaseState import BaseState
+from validation.state_objs.FailureState import FailureState
+import validation.States as s
 
 
 class Test12(TestBase):
@@ -14,9 +15,9 @@ class Test12(TestBase):
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
-        if isinstance(self.state, StartState) and log.rec_queried == "TXT":
+        if isinstance(self.state, StartState) and log.rec_queried == s.States.TXT:
             self.state = BaseState(log, self.get_test_result)
-        elif isinstance(self.state, BaseState) and log.level == "b" and log.rec_queried == "MX":
+        elif isinstance(self.state, BaseState) and log.level == "b" and log.rec_queried == s.States.MX:
             self.state = SuccessState(log, self.get_test_result)
         elif isinstance(self.state, SuccessState):
             self.state = FailureState(log, self.get_test_result)

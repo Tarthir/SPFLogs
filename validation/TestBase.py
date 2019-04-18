@@ -1,5 +1,6 @@
-from validation.States.StartState import StartState
+from validation.state_objs.StartState import StartState
 from abc import ABC, abstractmethod
+from validation import state_objs as s
 
 
 # Serves as the base class for all testing classes

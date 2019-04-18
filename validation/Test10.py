@@ -1,7 +1,9 @@
 from validation.TestBase import TestBase
-from validation.States.StartState import StartState
-from validation.States.BaseState import BaseState
-from validation.States.SuccessState import SuccessState
+from validation.state_objs.StartState import StartState
+from validation.state_objs.BaseState import BaseState
+from validation.state_objs.SuccessState import SuccessState
+from validation.state_objs.StateUtils import check_a
+import validation.States as s
 
 
 class Test10(TestBase):
@@ -14,11 +16,11 @@ class Test10(TestBase):
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
-        if isinstance(self.state, StartState) and log.rec_queried == "TXT":
+        if isinstance(self.state, StartState) and log.rec_queried == s.States.TXT:
             self.state = BaseState(log, self.get_test_result)
         # TODO is this right?do we have to see each one or just 5 of any kind
         elif isinstance(self.state, BaseState):
-            if log.rec_queried in self.all_five and log.rec_queried == "A":
+            if log.rec_queried in self.all_five and check_a(log.rec_queried):
                 self.all_five.remove(log.rec_queried)
             # if we have seen all five queries
             if len(self.all_five) == 0:
