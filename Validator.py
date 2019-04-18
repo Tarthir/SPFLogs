@@ -7,8 +7,8 @@ import os
 # each particular test
 method_name = "check_testing"
 validation_testing_dict = {"t05": Test05.Test05()}
-validation_testing_dict = {"t01": Test01.Test01(), "t02": Test02.Test02(), "t03": Test03.Test03(),
-                            "t04": Test04.Test04(), "t05": Test05.Test05(), "t06": Test06.Test06()}#,
+#validation_testing_dict = #{"t01": Test01.Test01(), "t02": Test02.Test02(), "t03": Test03.Test03(),
+ #                           "t04": Test04.Test04(), "t05": Test05.Test05(), "t06": Test06.Test06()}#,
 #                            "t07": Test07.Test07(), "t08": Test08.Test08(), "t09": Test09.Test09(),
 #                            "t10": Test10.Test10(), "t11": Test11.Test11(), "t12": Test12.Test12(),
 #                            "t13": Test13.Test13(), "t14": Test14.Test14(), "t15": Test15.Test15(),

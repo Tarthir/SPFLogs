@@ -1,5 +1,5 @@
 import validation.TestBase as BaseClass
-
+import validation.States as s
 # Assuming that the log_list will be sorted chronological order
 
 class Test02(BaseClass.TestBase):
@@ -22,21 +22,20 @@ class Test02(BaseClass.TestBase):
             rec = entry.rec_type.upper()
             time = entry.sec_from_1970
             # make sure this works, should be base txt record query
-            if entry.level == None and rec == TXT and first_txt_time == None: 
+            if entry.level == None and rec == s.States.TXT and first_txt_time == None:
                 first_txt_time = time
                 continue
-            if entry.level.lower() == lv1 and rec == TXT and first_l1_txt_time == None:
+            if entry.level.lower() == lv1 and rec == s.States.TXT and first_l1_txt_time == None:
                 first_l1_txt_time = time
                 continue
-            if (rec == A or rec == AAAA) and entry.level.lower() = "b" and first_bA_time == None:
+            if (rec == s.States.A or rec == s.States.AAAA) and entry.level.lower() == "b" and first_bA_time == None:
                 first_bA_time = time
-               
 
 
         for entry in log_list: # now we check for BG queries
             time = entry.sec_from_1970
             rec = entry.rec_type.upper()
-            if rec == TXT or rec == SPF:  # we want to skip all text records and spf records
+            if rec == s.States.TXT or rec == s.States.SPF:  # we want to skip all text records and spf records
                 continue
             if first_l1_txt_time is not None and first_l1_txt_time is not None and time > first_txt_time and time < first_l1_txt_time: # between base txt and l1 txt
                 bg_value = "BG"

@@ -8,9 +8,9 @@ import validation.TestBase as BaseClass
 class Test03(BaseClass.TestBase):
 
     def check_testing(self, log_list):
-	if len(log_list) == 0:                  # the list is empty for some reason
+        if len(log_list) == 0:                  # the list is empty for some reason
             return
-	first_txt_time = None
+        first_txt_time = None
         bg_value = "NO_BG"             # were there any bg's period
         before_value = "None"         # bg's came before first txt query
         after_value = "None"          # bg's came after first txt query
@@ -26,7 +26,7 @@ class Test03(BaseClass.TestBase):
        
 
 
-	for entry in log_list:                  # find if we have a txt query
+        for entry in log_list:                  # find if we have a txt query
             if entry.rec_type.upper() == TXT:
                 first_txt_time = entry.sec_from_1970
                 break
@@ -45,20 +45,20 @@ class Test03(BaseClass.TestBase):
                         bg_value = "BG"
                         after_value = "AFTER"
                         continue
-	else:                                   # does not contain TXT query
+        else:                                   # does not contain TXT query
             for entry in log_list:
                 if entry.rec_type.upper() is not TXT or entry.rec_type.upper() is not SPF:
                     bg_value = "BG"
                     break
- 	# Append the test results file
-	frequency_string = ""
+    # Append the test results file
+        frequency_string = ""
         for keys in records:
             frequency_string = frequency_string + keys + "=" + records[keys] + " "
-        result = log_list[0].generated_name + space + bg_value + space + before_value + space + after_value + space + frequency_string + endline
-        f = open("./t03_results.txt", "a+")     # this will append to the t03 results file
-        f.write(result)
-        f.flush()
-        f.close()
+            result = log_list[0].generated_name + space + bg_value + space + before_value + space + after_value + space + frequency_string + endline
+            f = open("./t03_results.txt", "a+")     # this will append to the t03 results file
+            f.write(result)
+            f.flush()
+            f.close()
 
 
 
