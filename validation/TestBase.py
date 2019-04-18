@@ -17,7 +17,7 @@ class TestBase(ABC):
     # PARAM: func - the function which will be passed a log object the current state and is compared
     # to the state this log object would place the test in
     def check_testing(self, log_list):
-        self.state = StartState(log_list[0], self.get_test_result)  #TODO needs to be given the actual method
+        self.state = StartState(log_list[0], self.get_test_result)
         for log in log_list:
             self.test_def(log)
         return self.state.get_final_result(log_list)

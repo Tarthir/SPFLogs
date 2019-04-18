@@ -29,44 +29,56 @@ class Test04(TestBase):
         if isinstance(self.state, StartState) and log.rec_queried == "TXT":
             self.state = BaseState(log, self.get_test_result)
 
-        elif isinstance(self.state, BaseState) and log.level == "l1" and log.rec_queried == "TXT":
-            self.state = do_state_change("l1", log, self.dyn_classes)
-        elif isinstance(self.state, BaseState) and log.level == "b" and check_a(log.rec_queried):
-            self.state = do_state_change("b_to4_a", log, self.dyn_classes)
-        elif isinstance(self.state, BaseState) and log.level == "l2" and log.rec_queried == "TXT":
-            self.state = do_state_change("l2", log, self.dyn_classes)
-        elif isinstance(self.state, BaseState) and log.level == "l3" and log.rec_queried == "TXT":
-            self.state = do_state_change("l3", log, self.dyn_classes)
-
-        elif self.state.name == "l1":
-            if log.level == "l2" and log.rec_queried == "TXT":
+        # check branches from base state
+        if isinstance(self.state, BaseState):
+            if log.level == "l1" and log.rec_queried == "TXT":
+                self.state = do_state_change("l1", log, self.dyn_classes)
+            elif log.level == "b" and check_a(log.rec_queried):
+                self.state = do_state_change("b_to4_a", log, self.dyn_classes)
+            elif log.level == "l2" and log.rec_queried == "TXT":
                 self.state = do_state_change("l2", log, self.dyn_classes)
-            elif log.level == "l3" and log.rec_queried == "TXT":
+            elif  log.level == "l3" and log.rec_queried == "TXT":
                 self.state = do_state_change("l3", log, self.dyn_classes)
-            elif log.level == "b_to4_a" and check_a(log.rec_queried):
+
+        # check branches from l1
+        elif self.state.name == "l1":
+            if log.rec_queried == "TXT":
+                if log.level == "l2":
+                    self.state = do_state_change("l2", log, self.dyn_classes)
+                elif log.level == "l3":
+                    self.state = do_state_change("l3", log, self.dyn_classes)
+            elif check_a(log.rec_queried) and log.level == "b_to4_a":
                 self.state = do_state_change("b_to4_a", log, self.dyn_classes)
 
+        # check branch from l3
         elif self.state.name == "l3" and log.level == "b" and check_a(log.rec_queried):
             self.state = do_state_change("serial", log, self.dyn_classes)  # Success
 
-        elif self.state.name == "l2" and log.level == "b" and log.rec_queried == "TXT":
-            self.state = do_state_change("maybe_serial", log, self.dyn_classes)  # Success
+        # check branches from l2
+        elif self.state.name == "l2" and log.rec_queried == "TXT":
+            if log.level == "l3":
+                self.state = do_state_change("l3", log, self.dyn_classes)
+            elif log.level == "b":
+                self.state = do_state_change("maybe_serial", log, self.dyn_classes)  # Success
 
+        # check branch from maybe_Serial
         elif self.state.name == "maybe_serial" and log.level == "l3" and log.rec_queried == "TXT":
             self.state = do_state_change("delayed_parallel", log, self.dyn_classes)  # Success
 
-        elif self.state.name == "b_to4_a":
-            if log.level == "l1" and log.rec_queried == "TXT":
+        # check branch from b_to4_a
+        elif self.state.name == "b_to4_a" and log.rec_queried == "TXT":
+            if log.level == "l1":
                 self.state = do_state_change("p_l1", log, self.dyn_classes)
-            elif log.level == "l2" and log.rec_queried == "TXT":
-                self.state = do_state_change("p_l2")
-            elif log.level == "l3" and log.rec_queried == "TXT":
+            elif log.level == "l2":
+                self.state = do_state_change("p_l2", log, self.dyn_classes)
+            elif log.level == "l3":
                 self.state = do_state_change("parallel", log, self.dyn_classes)  # Success
 
-        elif self.state.name == "p_l1":
-            if log.rec_queried == "l2" and log.rec_queried == "TXT":
-                self.state = do_state_change("p_l2")
-            elif log.level == "l3" and log.rec_queried == "TXT":
+        # check branch from p_l1
+        elif self.state.name == "p_l1" and log.rec_queried == "TXT":
+            if log.rec_queried == "l2":
+                self.state = do_state_change("p_l2", log, self.dyn_classes)
+            elif log.level == "l3":
                 self.state = do_state_change("parallel", log, self.dyn_classes)  # Success
         elif self.state.name == "p_l2" and log.level == "l3" and log.rec_queried == "TXT":
             self.state = do_state_change("parallel", log, self.dyn_classes)  # Success

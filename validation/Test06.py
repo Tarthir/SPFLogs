@@ -21,7 +21,7 @@ class Test06(TestBase):
     def test_def(self, log):
         if isinstance(self.state, StartState) and log.rec_queried == "TXT":
             self.state = BaseState(log, self.get_test_result)
-        elif log.rec_queried == "b" and isinstance(self.state, BaseState) and check_a(log.rec_queried):
+        elif log.level == "b" and isinstance(self.state, BaseState) and check_a(log.rec_queried):
             self.state = SuccessState(log, self.get_test_result)
-        elif isinstance(self.state, SuccessState) and log.rec_queried == "c" and check_a(log.rec_queried):
+        elif isinstance(self.state, SuccessState) and log.level == "c" and check_a(log.rec_queried):
             self.state = FailureState(log, self.get_test_result)

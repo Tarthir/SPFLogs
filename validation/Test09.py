@@ -20,11 +20,11 @@ class Test09(TestBase):
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
-        if isinstance(self.state, StartState) and log.level == "TXT":
+        if isinstance(self.state, StartState) and log.rec_queried == "TXT":
             self.state = BaseState(log, self.get_test_result)
         elif (isinstance(self.state, BaseState) or isinstance(self.state, SuccessState)) and log.level != "l10" \
                 and log.rec_queried == "TXT":
-            self.state = FailureState(log, self.get_test_result)
+            self.state = FailureState(log, self.get_test_result)  # logic flow lets us know when it stopped
         elif isinstance(self.state, FailureState) and log.level == "l10" and log.rec_queried == "TXT":
             self.state = SuccessState(log, self.get_test_result)
         # TODO lowercase for "TXT/A/etc"??

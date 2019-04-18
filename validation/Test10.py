@@ -18,10 +18,10 @@ class Test10(TestBase):
     def test_def(self, log):
         if isinstance(self.state, StartState) and log.rec_queried == "TXT":
             self.state = BaseState(log, self.get_test_result)
-        # TODO is this right?do we have to see each one or just 5 of any kind
         elif isinstance(self.state, BaseState):
-            if log.rec_queried in self.all_five and check_a(log.rec_queried):
-                self.all_five.remove(log.rec_queried)
+            # TODO do we need to check for what rec they queried?
+            if log.level in self.all_five: #and check_a(log.rec_queried):
+                self.all_five.remove(log.level)
             # if we have seen all five queries
             if len(self.all_five) == 0:
                 self.state = SuccessState(log, self.get_test_result)
