@@ -32,4 +32,4 @@ def do_state_change(name, log, dyn):
 
 
 def check_a(rec):
-    return rec == s.States.A or rec == s.States.AAAA
+    return rec == "A" or rec == "AAAA"

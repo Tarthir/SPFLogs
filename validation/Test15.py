@@ -14,7 +14,7 @@ class Test15(TestBase):
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
-        if isinstance(self.state, StartState) and log.rec_queried == s.States.TXT:
+        if isinstance(self.state, StartState) and log.rec_queried == "TXT":
             self.state = SuccessState(log, self.get_test_result)
         elif isinstance(self.state, SuccessState):
             self.state = FailureState(log, self.get_test_result)

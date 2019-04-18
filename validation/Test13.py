@@ -16,7 +16,7 @@ class Test13(TestBase):
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
-        if isinstance(self.state, StartState) and log.rec_queried == s.States.TXT:
+        if isinstance(self.state, StartState) and log.rec_queried == "TXT":
             self.state = BaseState(log, self.get_test_result)
         elif isinstance(self.state, BaseState) and log.rec_queried == s.States.MX and log.level == "b":
             self.state = FailureState(log, self.get_test_result)
