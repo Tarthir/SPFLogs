@@ -19,8 +19,8 @@ class SuperState(ABC):
                     if res is not None:
                         f.write(res)
                         f.flush()
-                except TypeError as err:
+                except TypeError as err: # TODO get rid of this
                     sys.stderr.write(str(err))
         else:
-            print("SuperState: No get Result method given, please give state objects get_result method(s)")
+            sys.stderr.write("SuperState: No get Result method given, please give state objects get_result method(s)")
 
