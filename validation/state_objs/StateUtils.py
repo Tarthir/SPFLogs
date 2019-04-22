@@ -19,15 +19,16 @@ def class_factory(name, argnames, BaseClass=SuperState):
 
 
 # returns a dynamic class based on SuperState
-def get_class(name, func):
+def get_class(name):
     args = "name ending_log get_result_method".split()
     my_c = class_factory(name, args)
-    return my_c(name=name, ending_log=None, get_result_method=func)
+    return my_c(name=name, ending_log=None, get_result_method=None)
 
 
-def do_state_change(name, log, dyn):
+def do_state_change(name, log, dyn, func):
     new_state = dyn[name]
     new_state.ending_log = log
+    new_state.get_result_method = func
     return new_state
 
 
