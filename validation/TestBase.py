@@ -30,5 +30,5 @@ class TestBase(ABC):
 
     @abstractmethod
     def get_test_result(self, log, log_list):
-        return "{} {} {} {}\n".format(log.generated_name, self.state.name, self.state.ending_log.level,
+        return "Gen:{:24} tName:{:8} Level:{:18} Rec:{:6}\n".format(log.generated_name, self.state.name, str(self.state.ending_log.level),
                                       self.state.ending_log.rec_queried)
