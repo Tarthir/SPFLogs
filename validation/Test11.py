@@ -5,7 +5,6 @@ from validation.state_objs.FailureState import FailureState
 from validation.state_objs.StateUtils import get_class
 from validation.state_objs.StateUtils import do_state_change
 from validation.state_objs.StateUtils import check_a
-import validation.States as s
 
 
 class Test11(TestBase):
@@ -33,7 +32,7 @@ class Test11(TestBase):
             self.state = do_state_change("lookup_2", log, self.dyn_classes, self.get_test_result)
 
         elif self.state.name == "lookup_2" and log.level in self.queries_types and check_a(log.rec_queried):
-            self.state = FailureState(log, self.get_test_result, self.get_test_result)
+            self.state = FailureState(log, self.get_test_result)
 
     def get_test_result(self, log, log_list):
         return TestBase.get_test_result(self, log, log_list)

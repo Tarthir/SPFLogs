@@ -5,6 +5,7 @@ from validation.state_objs.StateUtils import do_state_change
 
 # TODO do we need to account for those queries that queriy ipv4, than 6, than 4 again?
 
+
 # STATES:
 # A: All servers who queried for ipv4 first
 # B: All servers who queried for ipv6 first
