@@ -21,6 +21,7 @@ class Test11(TestBase):
 
     def test_def(self, log):
         if isinstance(self.state, StartState) and log.rec_queried == "TXT":
+            self.queries_types = {"b", "c", "d", "e", "f"}  # restore the queries
             self.state = BaseState(log, self.get_test_result)
 
         elif isinstance(self.state, BaseState) and log.level in self.queries_types and check_a(log.rec_queried):

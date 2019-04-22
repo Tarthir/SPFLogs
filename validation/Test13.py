@@ -18,13 +18,15 @@ class Test13(TestBase):
     def test_def(self, log):
         if isinstance(self.state, StartState) and log.rec_queried == "TXT":
             self.state = BaseState(log, self.get_test_result)
-        elif isinstance(self.state, BaseState) and log.rec_queried == s.States.MX and log.level == "b":
+        elif isinstance(self.state, BaseState) and log.rec_queried == "MX" and log.level == "b":
             self.state = FailureState(log, self.get_test_result)
         elif isinstance(self.state, FailureState) and check_a(log.rec_queried):
             if log.level == "mail10":
                 self.state = SuccessState(log, self.get_test_result)
             else:
                 self.state = FailureState(log, self.get_test_result)
+        elif isinstance(self.state, SuccessState):  # if they keep querying after mail10
+            self.state = FailureState(log, self.get_test_result)
 
     def get_test_result(self, log, log_list):
         return TestBase.get_test_result(self, log, log_list)

@@ -23,4 +23,6 @@ class SuperState(ABC):
                     sys.stderr.write("{} - {} - {}".format(str(err), self.get_result_method, self.ending_log.test_name))
         else:
             sys.stderr.write("SuperState: No get Result method given, please give state objects get_result method(s)\n")
+# TODO fix t04. None are passing
+
 

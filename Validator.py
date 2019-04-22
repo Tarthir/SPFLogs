@@ -6,7 +6,6 @@ import os
 #  This script is in charge of checking to see how far in the validation process each email server got for
 # each particular test
 method_name = "check_testing"
-#validation_testing_dict = {"t05": Test05.Test05()}
 validation_testing_dict = {#"t01": Test01.Test01(None), "t02": Test02.Test02(None), "t03": Test03.Test03(None),
                            "t04": Test04.Test04(), "t05": Test05.Test05(), "t06": Test06.Test06(),
                            "t07": Test07.Test07(), "t08": Test08.Test08(), "t09": Test09.Test09(),
@@ -34,3 +33,5 @@ for key in holder.all_tests.keys():
         validation_testing_dict[test_num].do_testing(logs)
     except KeyError as err:
         sys.stderr.write("Validating KeyError with: %s\n" % str(err))
+
+# TODO tests t01-t03 have runtime errors, also checking agaisnt the enum will cause isssues

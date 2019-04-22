@@ -17,9 +17,11 @@ class Test12(TestBase):
     def test_def(self, log):
         if isinstance(self.state, StartState) and log.rec_queried == "TXT":
             self.state = BaseState(log, self.get_test_result)
-        elif isinstance(self.state, BaseState) and log.level == "b" and log.rec_queried == s.States.MX:
+        elif isinstance(self.state, BaseState) and log.level == "b" and log.rec_queried == "MX":
             self.state = SuccessState(log, self.get_test_result)
         elif isinstance(self.state, SuccessState):
+            self.state = FailureState(log, self.get_test_result)
+        elif isinstance(self.state, FailureState) and log.level == "b": # for queries after initial failure
             self.state = FailureState(log, self.get_test_result)
 
     def get_test_result(self, log, log_list):
