@@ -24,6 +24,7 @@ class States(enum.Enum):
     SRV = "SRV"
     URI = "URI"
     TXT = "TXT"
+    SPF = "SPF"
 
     # Enums are levels
     lv1 = "l1"

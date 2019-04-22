@@ -1,4 +1,5 @@
 import validation.TestBase as BaseClass
+from validation.States import States as s
 
 
 # results = "generated_name" "BG or NO_BG" "BEFORE or None" "AFTER or None"
@@ -6,7 +7,7 @@ import validation.TestBase as BaseClass
 class Test01(BaseClass.TestBase):
 
     def do_testing(self, log_list):
-        pass
+        self.check_testing(log_list)
 
     def test_def(self, log):
         pass
@@ -25,7 +26,7 @@ class Test01(BaseClass.TestBase):
         endline = "\n"
 
         for entry in log_list:  # find if we have a txt query
-            if entry.rec_type.upper() == TXT:
+            if entry.rec_queried.upper() == s.TXT:
                 first_txt_time = entry.sec_from_1970
                 break
 
@@ -33,12 +34,12 @@ class Test01(BaseClass.TestBase):
         if first_txt_time is not None:
             for entry in log_list:
                 if entry.sec_from_1970 < first_txt_time:  # entries that came before first txt
-                    if entry.rec_type.upper() is not TXT:
+                    if entry.rec_queried.upper() is not s.TXT:
                         bg_value = "BG"
                         before_value = "BEFORE"
                         continue
                 if entry.sec_from_1970 > first_txt_time:  # entries that came after first txt
-                    if entry.rec_type.upper() is not TXT:
+                    if entry.rec_queried.upper() is not s.TXT:
                         bg_value = "BG"
                         after_value = "AFTER"
                         continue
@@ -46,7 +47,7 @@ class Test01(BaseClass.TestBase):
 
         else:  # does not contain TXT query
             for entry in log_list:
-                if entry.rec_type.upper() is not TXT or entry.rec_type.upper() is not SPF:
+                if entry.rec_queried.upper() is not s.TXT or entry.rec_queried.upper() is not s.SPF:
                     bg_value = "BG"
                     break
 

@@ -1,5 +1,5 @@
 import validation.TestBase as BaseClass
-
+from validation.States import States as s
 
 # Types
 # TXT A AAAA MX SPF NS DS SRV CNAME
@@ -8,7 +8,7 @@ import validation.TestBase as BaseClass
 class Test03(BaseClass.TestBase):
 
     def do_testing(self, log_list):
-        pass
+        self.check_testing(log_list)
 
     def test_def(self, log):
         pass
@@ -28,7 +28,7 @@ class Test03(BaseClass.TestBase):
         # get frequency of each record type
         records = {}
         for entry in log_list:
-            rec = entry.rec_type.upper()
+            rec = entry.rec_queried.upper()
             if records[rec] == None: # in case this is the first time we've seen this rec type
                 records[rec] = 0
             records[rec] += 1 # this increases the frequency count of each rec type
@@ -36,7 +36,7 @@ class Test03(BaseClass.TestBase):
 
 
         for entry in log_list:                  # find if we have a txt query
-            if entry.rec_type.upper() == TXT:
+            if entry.rec_queried.upper() == s.TXT:
                 first_txt_time = entry.sec_from_1970
                 break
 
@@ -45,18 +45,18 @@ class Test03(BaseClass.TestBase):
         if first_txt_time is not None:
             for entry in log_list:
                 if entry.sec_from_1970 < first_txt_time: #entries that came before first txt
-                    if entry.rec_type is not TXT:
+                    if entry.rec_queried is not s.TXT:
                         bg_value = "BG"
                         before_value = "BEFORE"
                         continue
                 if entry.sec_from_1970 > first_txt_time: #entries that came after first txt
-                    if entry.rec_type is not TXT:
+                    if entry.rec_queried is not s.TXT:
                         bg_value = "BG"
                         after_value = "AFTER"
                         continue
         else:                                   # does not contain TXT query
             for entry in log_list:
-                if entry.rec_type.upper() is not TXT or entry.rec_type.upper() is not SPF:
+                if entry.rec_queried.upper() is not s.TXT or entry.rec_queried.upper() is not s.SPF:
                     bg_value = "BG"
                     break
     # Append the test results file

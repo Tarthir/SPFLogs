@@ -7,7 +7,7 @@ import validation.States as s
 class Test02(BaseClass.TestBase):
 
     def do_testing(self, log_list):
-        pass
+        self.check_testing(log_list)
 
     def test_def(self, log):
         pass
@@ -30,13 +30,13 @@ class Test02(BaseClass.TestBase):
         endline = "\n"
 
         for entry in log_list:
-            rec = entry.rec_type.upper()
+            rec = entry.rec_queried.upper()
             time = entry.sec_from_1970
             # make sure this works, should be base txt record query
             if entry.level == None and rec == s.States.TXT and first_txt_time == None:
                 first_txt_time = time
                 continue
-            if entry.level.lower() == lv1 and rec == s.States.TXT and first_l1_txt_time == None:
+            if entry.level is not None and entry.level.lower() == s.States.lv1 and rec == s.States.TXT and first_l1_txt_time == None:
                 first_l1_txt_time = time
                 continue
             if (rec == s.States.A or rec == s.States.AAAA) and entry.level.lower() == "b" and first_bA_time == None:
@@ -44,7 +44,7 @@ class Test02(BaseClass.TestBase):
 
         for entry in log_list:  # now we check for BG queries
             time = entry.sec_from_1970
-            rec = entry.rec_type.upper()
+            rec = entry.rec_queried.upper()
             if rec == s.States.TXT or rec == s.States.SPF:  # we want to skip all text records and spf records
                 continue
             if first_l1_txt_time is not None and first_l1_txt_time is not None and time > first_txt_time and time < first_l1_txt_time:  # between base txt and l1 txt
