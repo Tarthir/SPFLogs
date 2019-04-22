@@ -34,4 +34,6 @@ for key in holder.all_tests.keys():
     except KeyError as err:
         sys.stderr.write("Validating KeyError with: %s\n" % str(err))
 
+print("Done Validating\n")
+
 # TODO tests t01-t03 have runtime errors, also checking agaisnt the enum will cause isssues
