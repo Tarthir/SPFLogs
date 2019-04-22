@@ -20,7 +20,7 @@ class SuperState(ABC):
                         f.write(res)
                         f.flush()
                 except TypeError as err: # TODO get rid of this
-                    sys.stderr.write(str(err))
+                    sys.stderr.write("{} - {} - {}".format(str(err), self.get_result_method, self.ending_log.test_name))
         else:
             sys.stderr.write("SuperState: No get Result method given, please give state objects get_result method(s)")
 
