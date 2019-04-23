@@ -37,3 +37,4 @@ for key in holder.all_tests.keys():
 print("Done Validating\n")
 
 # TODO tests t01-t03 have runtime errors, also checking agaisnt the enum will cause isssues
+#TODO still having issues with t04,t11,t16
