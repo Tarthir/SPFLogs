@@ -24,12 +24,14 @@ class Test11(TestBase):
             self.state = BaseState(log, self.get_test_result)
 
         elif isinstance(self.state, BaseState) and log.level in self.queries_types and check_a(log.rec_queried):
-            self.queries_types.remove(log.level)
-            self.state = do_state_change("lookup_1", log, self.dyn_classes, self.get_test_result)
+            if log.level is not None:
+                self.queries_types.remove(log.level)
+                self.state = do_state_change("lookup_1", log, self.dyn_classes, self.get_test_result)
 
         elif self.state.name == "lookup_1" and log.level in self.queries_types and check_a(log.rec_queried):
-            self.queries_types.remove(log.level)
-            self.state = do_state_change("lookup_2", log, self.dyn_classes, self.get_test_result)
+            if log.level is not None:
+                self.queries_types.remove(log.level)
+                self.state = do_state_change("lookup_2", log, self.dyn_classes, self.get_test_result)
 
         elif self.state.name == "lookup_2" and log.level in self.queries_types and check_a(log.rec_queried):
             self.state = FailureState(log, self.get_test_result)
