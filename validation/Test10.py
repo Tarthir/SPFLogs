@@ -2,8 +2,6 @@ from validation.TestBase import TestBase
 from validation.state_objs.StartState import StartState
 from validation.state_objs.BaseState import BaseState
 from validation.state_objs.SuccessState import SuccessState
-from validation.state_objs.StateUtils import check_a
-import validation.States as s
 
 
 class Test10(TestBase):

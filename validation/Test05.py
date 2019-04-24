@@ -3,7 +3,6 @@ from validation.state_objs.SuccessState import SuccessState
 from validation.state_objs.StartState import StartState
 from validation.TestBase import TestBase
 from validation.state_objs.StateUtils import check_a
-import validation.States as s
 
 
 class Test05(TestBase):
@@ -25,4 +24,5 @@ class Test05(TestBase):
         elif isinstance(self.state, BaseState) and log.level == "b" and check_a(log.rec_queried):
             self.state = SuccessState(log, self.get_test_result)
             # TODO queries can come out of order
+
 
