@@ -33,4 +33,5 @@ def do_state_change(name, log, dyn, func):
 
 
 def check_a(rec):
-    return rec == "A" or rec == "AAAA"
+    if rec is not None:
+        return rec == "A" or rec == "AAAA"
