@@ -15,7 +15,7 @@ class SuperState(ABC):
             file_name = "validation_results/{}_results.txt".format(self.ending_log.test_name)
             with open(file_name, "a+") as f:
                # try:
-                res = self.get_result_method(self.ending_log, log_list)
+                res = "{}\n".format(self.get_result_method(self.ending_log, log_list))
                 if res is not None:
                     f.write(res)
                     f.flush()
