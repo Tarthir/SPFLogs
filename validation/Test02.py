@@ -1,5 +1,5 @@
 import validation.TestBase as BaseClass
-import validation.States as s
+from validation.States import States as s
 import math
 
 
@@ -20,6 +20,10 @@ class Test02(BaseClass.TestBase):
         if len(log_list) == 0:  # the list is empty for some reason
             return
 
+        print("\n")
+        #print(log_list[0].generated_name)
+        for log in log_list:
+            print(str(log))
         first_txt_time = math.inf
         first_l1_txt_time = math.inf
         first_bA_time = math.inf
@@ -34,19 +38,19 @@ class Test02(BaseClass.TestBase):
             rec = entry.rec_queried.upper()
             time = entry.sec_from_1970
             # make sure this works, should be base txt record query
-            if entry.level == None and rec == s.States.TXT and first_txt_time == None:
+            if entry.level == None and rec == s.TXT.value and first_txt_time == math.inf:
                 first_txt_time = time
                 continue
-            if entry.level is not None and entry.level.lower() == s.States.lv1 and rec == s.States.TXT and first_l1_txt_time == None:
+            if entry.level is not None and entry.level.lower() == s.lv1.value and rec == s.TXT.value and first_l1_txt_time == math.inf:
                 first_l1_txt_time = time
                 continue
-            if (rec == s.States.A or rec == s.States.AAAA) and entry.level.lower() == "b" and first_bA_time == None:
+            if entry.level is not None and (rec == s.A.value or rec == s.AAAA.value) and entry.level.lower() == "b" and first_bA_time == math.inf:
                 first_bA_time = time
-
+        print("txt: %s\t l1: %s\t bA: %s" % (str(first_txt_time), str(first_l1_txt_time), str(first_bA_time)))
         for entry in log_list:  # now we check for BG queries
             time = entry.sec_from_1970
             rec = entry.rec_queried.upper()
-            if rec == s.States.TXT or rec == s.States.SPF:  # we want to skip all text records and spf records
+            if rec == s.TXT.value or rec == s.SPF.value:  # we want to skip all text records and spf records
                 continue
             if first_l1_txt_time is not math.inf and first_l1_txt_time is not math.inf and time > first_txt_time and time < first_l1_txt_time:  # between base txt and l1 txt
                 bg_value = "BG"
@@ -56,9 +60,18 @@ class Test02(BaseClass.TestBase):
                 bg_value = "BG"
                 after_l1_txt = "AFTER_L1"
                 continue
-            if time > first_bA_time and (rec is not AAAA or rec is not A):
+            if time > first_bA_time and (rec is not s.AAAA.value or rec is not s.A.value):
                 bg_value = "BG"
                 after_bA = "AFTER_b"
+        bool = True
+        if bg_value == "NO_BG":
+            for log in log_list:
+                rec = log.rec_queried.upper()
+                if rec == s.TXT.value or rec == s.SPF.value:
+                    bool = False
+            if bool:
+                bg_value = "NO_TXT"
+
 
         # Append test results to file
         result = log_list[
@@ -67,3 +80,4 @@ class Test02(BaseClass.TestBase):
         f.write(result)
         f.flush()
         f.close()
+        # does an extra b...A query at the end count as a BG? ************************
