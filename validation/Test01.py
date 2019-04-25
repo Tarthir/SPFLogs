@@ -16,8 +16,13 @@ class Test01(BaseClass.TestBase):
         pass
 
     def check_testing(self, log_list):
+        #print("*** in T01 Class ***")
         if len(log_list) == 0:  # the list is empty for some reason
             return
+        print("\n")
+        #print(log_list[0].generated_name)
+        for log in log_list:
+            print(str(log))
         first_txt_time = None
         bg_value = "NO_BG"  # were there any bg's period
         before_value = "None"  # bg's came before first txt query
@@ -26,29 +31,31 @@ class Test01(BaseClass.TestBase):
         endline = "\n"
 
         for entry in log_list:  # find if we have a txt query
-            if entry.rec_queried.upper() == s.TXT:
+            #print(entry.rec_queried.upper())
+            #print(s.TXT.value)
+            if entry.rec_queried.upper() == s.TXT.value:
                 first_txt_time = entry.sec_from_1970
                 break
 
         # contains a TXT query
         if first_txt_time is not None:
             for entry in log_list:
+                if entry.rec_queried.upper() == s.TXT.value or entry.rec_queried.upper() == s.SPF.value:
+                    continue
                 if entry.sec_from_1970 < first_txt_time:  # entries that came before first txt
-                    if entry.rec_queried.upper() is not s.TXT:
-                        bg_value = "BG"
-                        before_value = "BEFORE"
-                        continue
+                    bg_value = "BG"
+                    before_value = "BEFORE"
+                    continue
                 if entry.sec_from_1970 > first_txt_time:  # entries that came after first txt
-                    if entry.rec_queried.upper() is not s.TXT:
-                        bg_value = "BG"
-                        after_value = "AFTER"
-                        continue
+                    bg_value = "BG"
+                    after_value = "AFTER"
+                    continue
 
 
         else:  # does not contain TXT query
             for entry in log_list:
-                if entry.rec_queried.upper() is not s.TXT or entry.rec_queried.upper() is not s.SPF:
-                    bg_value = "BG"
+                if entry.rec_queried.upper() is not s.TXT.value or entry.rec_queried.upper() is not s.SPF.value:
+                    bg_value = "BG_no_txt"
                     break
 
         # _______________in the future we can count the frequency of record types here________

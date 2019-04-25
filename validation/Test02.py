@@ -1,5 +1,6 @@
 import validation.TestBase as BaseClass
 import validation.States as s
+import math
 
 
 # Assuming that the log_list will be sorted chronological order
@@ -19,9 +20,9 @@ class Test02(BaseClass.TestBase):
         if len(log_list) == 0:  # the list is empty for some reason
             return
 
-        first_txt_time = None
-        first_l1_txt_time = None
-        first_bA_time = None
+        first_txt_time = math.inf
+        first_l1_txt_time = math.inf
+        first_bA_time = math.inf
         bg_value = "NO_BG"
         before_l1_txt = "None"
         after_l1_txt = "None"
@@ -47,11 +48,11 @@ class Test02(BaseClass.TestBase):
             rec = entry.rec_queried.upper()
             if rec == s.States.TXT or rec == s.States.SPF:  # we want to skip all text records and spf records
                 continue
-            if first_l1_txt_time is not None and first_l1_txt_time is not None and time > first_txt_time and time < first_l1_txt_time:  # between base txt and l1 txt
+            if first_l1_txt_time is not math.inf and first_l1_txt_time is not math.inf and time > first_txt_time and time < first_l1_txt_time:  # between base txt and l1 txt
                 bg_value = "BG"
                 before_l1_txt = "BEFORE_L1"
                 continue
-            if first_time > first_l1_txt_time and time < first_bA_time:  # between l1 txt &  bA queries
+            if time > first_l1_txt_time and time < first_bA_time:  # between l1 txt &  bA queries
                 bg_value = "BG"
                 after_l1_txt = "AFTER_L1"
                 continue
