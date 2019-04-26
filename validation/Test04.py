@@ -25,11 +25,11 @@ class Test04(TestBase):
 
     # https://github.com/byu-imaal/Tanner/blob/master/quartet_backup_sept07_2018/validation/post_swaks_parsing/scratch/definitions/t04.dot.png
     def test_def(self, log):
-        if isinstance(self.state, StartState) and log.rec_queried == "TXT":
+        if isinstance(self.state, StartState) and log.rec_queried == "TXT" and log.level is None:
             self.state = BaseState(log, self.get_test_result)
 
         # check branches from base state
-        if isinstance(self.state, BaseState):
+        if isinstance(self.state, BaseState) and isinstance(self.state, StartState):
             if log.level == "l1" and log.rec_queried == "TXT":
                 self.state = do_state_change("l1", log, self.dyn_classes, self.get_test_result)
             elif log.level == "b" and check_a(log.rec_queried):
@@ -57,7 +57,7 @@ class Test04(TestBase):
         elif self.state.name == "l2" and log.rec_queried == "TXT":
             if log.level == "l3":
                 self.state = do_state_change("l3", log, self.dyn_classes, self.get_test_result)
-            elif log.level == "b":
+            elif log.level == "b" and check_a(log.rec_queried):
                 self.state = do_state_change("maybe_serial", log, self.dyn_classes, self.get_test_result)  # Success
 
         # check branch from maybe_Serial

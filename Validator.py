@@ -50,3 +50,4 @@ for key in holder.all_tests.keys():
 print("Done Validating\n")
 
 # TODO tests t01-t03 have runtime errors, also checking agaisnt the enum will cause isssues
+# TODO double check case insensitivity on regex and on entering of all adata. Like the genned names into the dic
