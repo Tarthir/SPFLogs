@@ -51,8 +51,9 @@ class Test03(BaseClass.TestBase):
         if first_txt_time is not None:
             for entry in log_list:
                 rec = entry.rec_queried.upper()
+                rec = rec.strip()
                 if entry.sec_from_1970 < first_txt_time: #entries that came before first txt
-                    if rec == s.TXT.value and rec == s.SPF.value:
+                    if rec == s.TXT.value or rec == s.SPF.value:
                         continue
                     else:
                         bg_value = "BG"
@@ -61,7 +62,7 @@ class Test03(BaseClass.TestBase):
                 print("txt: %s\tafter: %s" % (str(first_txt_time), str(entry.sec_from_1970)))
                 print("rec: %s\tSPF.value: %s" % (rec, s.SPF.value))
                 if entry.sec_from_1970 > first_txt_time: #entries that came after first txt
-                    if rec == s.TXT.value and rec == s.SPF.value:
+                    if rec == s.TXT.value or rec == s.SPF.value:
                         continue
                     else:
                         print("why")
