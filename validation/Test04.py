@@ -29,7 +29,7 @@ class Test04(TestBase):
             self.state = BaseState(log, self.get_test_result)
 
         # check branches from base state
-        if isinstance(self.state, BaseState) and isinstance(self.state, StartState):
+        if isinstance(self.state, BaseState) or isinstance(self.state, StartState):
             if log.level == "l1" and log.rec_queried == "TXT":
                 self.state = do_state_change("l1", log, self.dyn_classes, self.get_test_result)
             elif log.level == "b" and check_a(log.rec_queried):
