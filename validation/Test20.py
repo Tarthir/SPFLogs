@@ -8,6 +8,7 @@ class Test20(TestBase):
         TestBase.__init__(self, self.test_def)
         self.test19 = Test19()
         self.test19.state = StartState(None, self.get_test_result)
+        self.test19.which_test_running = "t20"
 
     def do_testing(self, log_list):
         # call to super class
@@ -18,6 +19,7 @@ class Test20(TestBase):
         self.test19.state = self.state
         self.test19.test_def(log)
         self.state = self.test19.state
+        # TODO see todo on Test19
 
     def get_test_result(self, log, log_list):
         self.state = StartState(None, self.get_test_result)
