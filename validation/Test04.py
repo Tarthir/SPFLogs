@@ -1,9 +1,9 @@
 from validation.TestBase import TestBase
-from validation.state_objs.StartState import StartState
 from validation.state_objs.BaseState import BaseState
-from validation.state_objs.StateUtils import get_class
-from validation.state_objs.StateUtils import do_state_change
+from validation.state_objs.StartState import StartState
 from validation.state_objs.StateUtils import check_a
+from validation.state_objs.StateUtils import do_state_change
+from validation.state_objs.StateUtils import get_class
 
 
 class Test04(TestBase):
@@ -46,7 +46,7 @@ class Test04(TestBase):
                     self.state = do_state_change("l2", log, self.dyn_classes, self.get_test_result)
                 elif log.level == "l3":
                     self.state = do_state_change("l3", log, self.dyn_classes, self.get_test_result)
-            elif check_a(log.rec_queried) and log.level == "b_t04_a":
+            elif check_a(log.rec_queried) and log.level == "b":
                 self.state = do_state_change("b_t04_a", log, self.dyn_classes, self.get_test_result)
 
         # check branch from l3
