@@ -62,3 +62,6 @@ class LogHolder:
         if len(record_arr) == 1:
             return record_arr[0], None
         return record_arr[0], record_arr[1]
+
+    def __str__( self ):
+        return 'log(generated_name:{},test_name:{},level:{},rec_queried:{},time_1970:{})'.format(self.generated_name,self.test_name,self.level,self.rec_queried,self.sec_from_1970)
