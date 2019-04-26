@@ -54,8 +54,8 @@ class Test04(TestBase):
             self.state = do_state_change("serial", log, self.dyn_classes, self.get_test_result)  # Success
 
         # check branches from l2
-        elif self.state.name == "l2" and log.rec_queried == "TXT":
-            if log.level == "l3":
+        elif self.state.name == "l2":
+            if log.level == "l3" and log.rec_queried == "TXT":
                 self.state = do_state_change("l3", log, self.dyn_classes, self.get_test_result)
             elif log.level == "b" and check_a(log.rec_queried):
                 self.state = do_state_change("maybe_serial", log, self.dyn_classes, self.get_test_result)  # Success
