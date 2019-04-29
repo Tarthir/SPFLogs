@@ -1,8 +1,10 @@
+import gzip
+import os
 import re
 import sys
-import gzip
+
 from log_reading import LogHolder as log, TestsHolder as tests
-import os
+
 # This file goes through log files that have been grepped to be apart of the spf-testset
 # For Regex matches:
 # group 1: Date!
@@ -16,7 +18,7 @@ import os
 # group 9: The record asked for
 # group 10: our server ip address
 ##
-# Ignore case in the regex
+# Ignore case in the regex, this ensures that everything we get out of the matches will NOT be in mixed case. Ex: "SpF-TeSt"
 regex = re.compile(r"^([0-9-]+)T([0-9:]+).([0-9:]+-[0-9]+:[0-9]+) (\S+) \S+ client (@0x\S+) (.*)#([0-9]*) \((.*)\) .* IN (.*) \((.*)\)", re.IGNORECASE)
 if len(sys.argv) < 3:
     sys.stderr.write("Usage: python LogScraper.py <query.log file> <true_Domains.txt>\n")
@@ -28,6 +30,7 @@ my_tests = tests.TestsHolder()
 dir_path = os.path.dirname(os.path.realpath(__file__))
 my_tests.load(dir_path)
 number_of_files = 1
+
 
 # go through a queries.log file and parse out every line grabbing pertinent data
 def read_file(f, my_tests):

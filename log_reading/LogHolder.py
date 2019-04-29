@@ -11,6 +11,7 @@ class LogHolder:
         self.test_name = None
         self.generated_name = None
         self.level = None
+        self.ipv_protocol = None
         self.parse_query(matches.group(8))
         self.sec_from_1970 = self.seconds_from(matches.group(1), matches.group(2), matches.group(3))
         record_arr = matches.group(9).strip().split(" ")  # if there is the "T" for tcp we want to grab it
@@ -24,6 +25,12 @@ class LogHolder:
         else:
             tmp = domain_name.split(".")
         try:
+            # get whether it was ipv4/6 in the domain name
+            if "ipv4" in tmp:
+                self.ipv_protocol = "ipv4"
+            elif "ipv6" in tmp:
+                self.ipv_protocol = "ipv6"
+
             tmp = [item.lower() for item in tmp] # make everything lowercase
             idx = tmp.index("spf-test") # spf-test is always at index 3
             gen_idx = idx - 2

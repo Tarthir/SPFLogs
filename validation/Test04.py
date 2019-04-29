@@ -18,6 +18,7 @@ class Test04(TestBase):
                             "maybe_serial": get_class("maybe_serial"),
                             "delayed_parallel": get_class("delayed_parallel"),
                             "serial": get_class("serial")}
+        self.is_serial = {}
 
     def do_testing(self, log_list):
         # call to super class
@@ -52,6 +53,7 @@ class Test04(TestBase):
         # check branch from l3
         elif self.state.name == "l3" and log.level == "b" and check_a(log.rec_queried):
             self.state = do_state_change("serial", log, self.dyn_classes, self.get_test_result)  # Success
+            self.is_serial[log.generated_name] = True
 
         # check branches from l2
         elif self.state.name == "l2":

@@ -1,24 +1,27 @@
-from log_reading import TestsHolder as tests
-from RemoveFiles import removeTheFiles
-from validation import Test02, Test06, Test13, Test17, Test08, Test12, Test14, Test19, Test21, Test04, Test03, Test10, \
-    Test18, Test16, Test22, Test11, Test05, Test07, Test09, Test01, Test20, Test15
-import sys
 import os
+import sys
+
+from RemoveFiles import removeTheFiles
+from log_reading import TestsHolder as tests
+from validation import Test06, Test08, Test19, Test04, Test10, \
+    Test18, Test11, Test05, Test07, Test20
 
 #  This script is in charge of checking to see how far in the validation process each email server got for
 # each particular test
 method_name = "check_testing"
 validation_testing_dict = {#"t01": Test01.Test01(None),
                             #"t02": Test02.Test02(None),
-                            "t03": Test03.Test03(None)#,
-                            #"t04": Test04.Test04(), "t05": Test05.Test05(), "t06": Test06.Test06(),
-                            #"t07": Test07.Test07(), "t08": Test08.Test08(), "t09": Test09.Test09(),
-                            #"t10": Test10.Test10(), "t11": Test11.Test11(), "t12": Test12.Test12(),
+                            #"t03": Test03.Test03(None),
+                            "t04": Test04.Test04(),# "t09": Test09.Test09(),
+                            "t10": Test10.Test10(),# "t12": Test12.Test12(),
                             #"t13": Test13.Test13(), "t14": Test14.Test14(), "t15": Test15.Test15(),
                             #"t16": Test16.Test16(), "t17": Test17.Test17(), "t18": Test18.Test18(),
-                            #"t19": Test19.Test19(), "t20": Test20.Test20(), "t21": Test21.Test21(),
+                            "t19": Test19.Test19(), "t20": Test20.Test20()#, "t21": Test21.Test21(),
                             #"t22": Test22.Test22()
                            }
+dependent_val_tests = {"t05": Test05.Test05(), "t06": Test06.Test06(),
+                       "t07": Test07.Test07(), "t08": Test08.Test08(),
+                       "t11": Test11.Test11(),"t18": Test18.Test18()}
 removeTheFiles() # removes all old result files in the current directory
 holder = tests.TestsHolder()
 print("Time To Validate...\n\nLoading the data...")
@@ -28,26 +31,27 @@ holder.load(dir_path)  # load up all the data
 if not holder.all_tests:
     print("No file was loaded! Exiting...")
     exit(-1)
-
 print("Entering Validation loop...\n")
-#print(str(holder.all_tests.keys()))
-for key in holder.all_tests.keys():
-    #print("\n")
-    #print(key)
+# sorting ensures that tests run from 1-22
+for key in sorted(holder.all_tests.keys()):
     logs = holder.all_tests[key]
-    #for log in logs:
-        #print(str(log))
     test_num = key.split("_")[0]
+    gen_name = key.split("_")[1]
     try:
-        #if test_num == "t01":
-            #print(key)
-            #for log in logs:
-                #print(str(log))
-        validation_testing_dict[test_num].do_testing(logs)
+        # 5/6/7/8 dependent on 4
+        if test_num == "t05" or test_num == "t06" or test_num == "t07" or test_num == "t08":
+            if gen_name in validation_testing_dict["t04"].is_serial:
+                dependent_val_tests[test_num].do_testing(logs)
+        # 11/18 dependent on 10
+        elif test_num == "t11" or test_num == "t18":
+            if gen_name in validation_testing_dict["t10"].succeeded:
+                dependent_val_tests[test_num].do_testing(logs)
+        else:
+            validation_testing_dict[test_num].do_testing(logs)
+
     except KeyError as err:
         sys.stderr.write("Validating KeyError with: %s\n" % str(err))
 
 print("Done Validating\n")
 
-# TODO tests t01-t03 have runtime errors, also checking agaisnt the enum will cause isssues
-# TODO double check case insensitivity on regex and on entering of all adata. Like the genned names into the dic
+# TODO go through https://github.com/byu-imaal/Tanner/blob/master/quartet_backup_sept07_2018/validation/post_swaks_parsing/scratch/definitions/april_24_changes.txt
