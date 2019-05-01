@@ -1,7 +1,8 @@
 from validation.TestBase import TestBase
 from validation.state_objs.StartState import StartState
-from validation.state_objs.StateUtils import get_class
 from validation.state_objs.StateUtils import do_state_change
+from validation.state_objs.StateUtils import get_class
+
 
 # TODO do we need to account for those queries that queriy ipv4, than 6, than 4 again?
 
@@ -55,4 +56,10 @@ class Test16(TestBase):
                     self.state = do_state_change("B", log, self.dyn_classes, self.get_test_result)
 
     def get_test_result(self, log, log_list):
-        return TestBase.get_test_result(self, log, log_list)
+        protocol = ""
+        if "." in log.server_ip:
+            protocol = "ipv4"
+        elif ":" in log.server_ip:
+            protocol = "ipv6"
+
+        return "{} Out_Protocol{}".format(TestBase.get_test_result(self, log, log_list), protocol)

@@ -13,6 +13,7 @@ class LogHolder:
         self.level = None
         self.ipv_protocol = None
         self.parse_query(matches.group(8))
+        self.server_ip = matches.group(10)
         self.sec_from_1970 = self.seconds_from(matches.group(1), matches.group(2), matches.group(3))
         record_arr = matches.group(9).strip().split(" ")  # if there is the "T" for tcp we want to grab it
         self.rec_queried, self.tcp = self.check_record(record_arr)
