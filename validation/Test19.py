@@ -1,3 +1,4 @@
+from validation import States as s
 from validation.TestBase import TestBase
 from validation.state_objs.FailureState import FailureState
 from validation.state_objs.StartState import StartState
@@ -27,7 +28,8 @@ class Test19(TestBase):
             self.state = do_state_change("to_ipv6", log, self.dyn_classes, self.get_test_result)
             self.sent_to = self.state.name
         elif self.state.name == "to_ipv6" or self.state.name == "to_ipv4" or isinstance(self.state, FailureState):
-            if log.rec_queried == "TXT" and log.ipv_protocol is not None:
+            # ipv_protocol is the label "ipv4" or "ipv6" that was in the query
+            if log.rec_queried == s.States.TXT.value and log.ipv_protocol is not None:
                 self.state = SuccessState(log, self.get_test_result)
             else:
                 self.state = FailureState(log, self.get_test_result)

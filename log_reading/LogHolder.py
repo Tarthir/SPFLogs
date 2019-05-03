@@ -5,17 +5,28 @@ import sys
 # This class acts as a data holder for each individual query we get. It stores all pertinent information
 class LogHolder:
     def __init__(self, matches):
+        # The ip address of the server that queried us
         self.ip = matches.group(6)
+        # The port number that came with the address above
         self.port = matches.group(7)
+        # lead/baritone/etc
         self.server_name = matches.group(4)
+        # Holds which test is this query for
         self.test_name = None
+        # The unique generated name of the query
         self.generated_name = None
+        # The "level" the query got to
         self.level = None
+        # Holds the ".ipv4." or ".ipv6." label if there
         self.ipv_protocol = None
+        # parse through the query
         self.parse_query(matches.group(8))
+        # Our IP address
         self.server_ip = matches.group(10)
+        # convert timestamp to seconds
         self.sec_from_1970 = self.seconds_from(matches.group(1), matches.group(2), matches.group(3))
         record_arr = matches.group(9).strip().split(" ")  # if there is the "T" for tcp we want to grab it
+        # grab the record queried for and whether this query was done over TCP
         self.rec_queried, self.tcp = self.check_record(record_arr)
 
     # Gets the generated name we made from the domain_name
