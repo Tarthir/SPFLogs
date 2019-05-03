@@ -17,9 +17,11 @@ class Test19(TestBase):
 
     def do_testing(self, log_list):
         # call to super class
+        print("\n")
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
+        print(str(log))
         if isinstance(self.state, StartState) and "." in log.ip:
             self.state = do_state_change("to_ipv4", log, self.dyn_classes, self.get_test_result)
             self.sent_to = self.state.name

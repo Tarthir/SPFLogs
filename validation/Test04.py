@@ -21,10 +21,12 @@ class Test04(TestBase):
 
     def do_testing(self, log_list):
         # call to super class
+        print("\n")
         return TestBase.check_testing(self, log_list)
 
     # https://github.com/byu-imaal/Tanner/blob/master/quartet_backup_sept07_2018/validation/post_swaks_parsing/scratch/definitions/t04.dot.png
     def test_def(self, log):
+        print(str(log))
         if isinstance(self.state, StartState) and log.rec_queried == "TXT" and log.level is None:
             self.state = BaseState(log, self.get_test_result)
 
@@ -84,8 +86,3 @@ class Test04(TestBase):
 
     def get_test_result(self, log, log_list):
         return TestBase.get_test_result(self, log, log_list)
-
-
-
-
-
