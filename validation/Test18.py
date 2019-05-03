@@ -17,7 +17,8 @@ class Test18(TestBase):
         print(str(log))
         if log.tcp == "T":
             self.state = SuccessState(log, self.get_test_result)
-        else:
+        # only fail if we have not already succeeded, just in case
+        elif not isinstance(self.state, SuccessState):
             self.state = FailureState(log, self.get_test_result)
 
     def get_test_result(self, log, log_list):

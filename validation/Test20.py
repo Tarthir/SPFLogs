@@ -1,5 +1,5 @@
-from validation.TestBase import TestBase
 from validation.Test19 import Test19
+from validation.TestBase import TestBase
 from validation.state_objs.StartState import StartState
 
 
@@ -19,7 +19,6 @@ class Test20(TestBase):
         self.test19.state = self.state
         self.test19.test_def(log)
         self.state = self.test19.state
-        # TODO see todo on Test19
 
     def get_test_result(self, log, log_list):
         self.state = StartState(None, self.get_test_result)
