@@ -2,6 +2,7 @@ from validation.state_objs.SuperState import SuperState
 
 
 # https://stackoverflow.com/questions/15247075/how-can-i-dynamically-create-derived-classes-from-a-base-class
+# This method creates dynamic classes
 def class_factory(name, argnames, BaseClass=SuperState):
     def __init__(self, **kwargs):
         vals = []
@@ -24,14 +25,14 @@ def get_class(name):
     my_c = class_factory(name, args)
     return my_c(name=name, ending_log=None, get_result_method=None)
 
-
+# Easily change the state of a dynamic state object
 def do_state_change(name, log, dyn, func):
     new_state = dyn[name]
     new_state.ending_log = log
     new_state.get_result_method = func
     return new_state
 
-
+# check for a A or AAAA record
 def check_a(rec):
     if rec is not None:
         return rec == "A" or rec == "AAAA"

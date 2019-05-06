@@ -1,6 +1,6 @@
-from validation.state_objs.StartState import StartState
 from abc import ABC, abstractmethod
-from validation import state_objs as s
+
+from validation.state_objs.StartState import StartState
 
 
 # Serves as the base class for all testing classes
@@ -14,8 +14,7 @@ class TestBase(ABC):
         return TestBase.check_testing(self, log_list)
 
     # called my subclasses to check current state of test
-    # PARAM: func - the function which will be passed a log object the current state and is compared
-    # to the state this log object would place the test in
+    # PARAM: log_list the list of log objects for a given generated name
     def check_testing(self, log_list):
         self.state = StartState(log_list[0], self.get_test_result)
         for log in log_list:
@@ -28,6 +27,7 @@ class TestBase(ABC):
     def test_def(self, log):
         pass
 
+    # The method to be used in order to write results out to file
     @abstractmethod
     def get_test_result(self, log, log_list):
         return "Gen:{:24} State:{:8} Level:{:18} Rec:{:6}".format(str(log.generated_name), str(self.state.name), str(self.state.ending_log.level),

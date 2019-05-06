@@ -1,13 +1,17 @@
 import os
-from pathlib import Path    # this is to check to see if the output files already exist
+import shutil
 
-def removeTheFiles( ):
-    #t01_file = Path("./t01_results.txt")
-    #if t01_file.is_file(): # check to see if t01 exists if it does remove it to append brand new data
-        #os.remove("./t01_results.txt")
-    # t02_file = Path("./t02_results.txt")
-    # if t02_file.is_file(): # check to see if t02 exists if it does remove it to append brand new data
-    #     os.remove("./t02_results.txt")
-    t03_file = Path("./t03_results.txt")
-    if t03_file.is_file(): # check to see if t03 exists if it does remove it to append brand new data
-        os.remove("./t03_results.txt")
+
+# Checks to see if the validation_results directory has been created, if not it creates it. If it is created
+# then we check to see if there are any files in there. If there are, we move them to a directory for old results.
+def removeTheFiles():
+    mydir = "validation_results/"
+    olddir = "old_validation_results/"
+    if not os.path.exists(mydir):
+        os.makedirs(mydir)
+    else:
+        if not os.path.exists(olddir):
+            os.makedirs(olddir)
+        filelist = [f for f in os.listdir(mydir) if f.endswith(".txt")]
+        for f in filelist:
+            shutil.move(mydir + f,olddir + f)

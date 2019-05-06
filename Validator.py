@@ -3,15 +3,14 @@ import sys
 
 from RemoveFiles import removeTheFiles
 from log_reading import TestsHolder as tests
-from validation import Test06, Test08, Test19, Test04, Test10, \
-    Test18, Test11, Test05, Test07, Test20
+from validation import Test06, Test08, Test19, Test18, Test11, Test05, Test07
 
 #  This script is in charge of checking to see how far in the validation process each email server got for
 # each particular test
 method_name = "check_testing"
-validation_testing_dict = {"t01": Test01.Test01(None),
-                            "t02": Test02.Test02(None),
-                            "t03": Test03.Test03(None),
+validation_testing_dict = {#"t01": Test01.Test01(None),
+                            #"t02": Test02.Test02(None),
+                            #"t03": Test03.Test03(None),
                             #"t04": Test04.Test04(),
                             #"t05": Test05.Test05(),
                             #"t06": Test06.Test06(), # error with b...TXT and b...A
@@ -34,8 +33,8 @@ validation_testing_dict = {"t01": Test01.Test01(None),
                            }
 dependent_val_tests = {"t05": Test05.Test05(), "t06": Test06.Test06(),
                        "t07": Test07.Test07(), "t08": Test08.Test08(),
-                       "t11": Test11.Test11(),"t18": Test18.Test18()}
-removeTheFiles() # removes all old result files in the current directory
+                       "t11": Test11.Test11(), "t18": Test18.Test18()}
+removeTheFiles()  # removes all old result files in the validation_results directory
 holder = tests.TestsHolder()
 print("Time To Validate...\n\nLoading the data...")
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -66,5 +65,3 @@ for key in sorted(holder.all_tests.keys()):
         sys.stderr.write("Validating KeyError with: %s\n" % str(err))
 
 print("Done Validating\n")
-
-# TODO go through https://github.com/byu-imaal/Tanner/blob/master/quartet_backup_sept07_2018/validation/post_swaks_parsing/scratch/definitions/april_24_changes.txt

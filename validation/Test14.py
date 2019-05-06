@@ -1,8 +1,6 @@
 from validation.TestBase import TestBase
-from validation.state_objs.SuccessState import SuccessState
-from validation.state_objs.StartState import StartState
 from validation.state_objs.BaseState import BaseState
-from validation.state_objs.FailureState import FailureState
+from validation.state_objs.StartState import StartState
 from validation.state_objs.StateUtils import check_a
 from validation.state_objs.StateUtils import do_state_change
 from validation.state_objs.StateUtils import get_class
@@ -21,7 +19,7 @@ class Test14(TestBase):
 
     def test_def(self, log):
         print(str(log))
-        if isinstance(self.state, StartState) and log.rec_queried == "TXT" and log.level == None:
+        if isinstance(self.state, StartState) and log.rec_queried == "TXT" and log.level is None:
             self.state = BaseState(log, self.get_test_result)
         elif check_a(log.rec_queried):
             if log.level == "b":
