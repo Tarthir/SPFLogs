@@ -11,6 +11,8 @@ def removeValidationFiles(mydir="validation_results/" , olddir="old_validation_r
         if not os.path.exists(olddir):
             os.makedirs(olddir)
         filelist = [f for f in os.listdir(mydir) if f.endswith(ending)]
+        if len(filelist) > 0:
+            print("Moving old files to {}".format(olddir))
         for f in filelist:
             shutil.move(mydir + f, olddir + f)
 

@@ -9,7 +9,7 @@ class TestsHolder:
         self.all_tests = {}
         cur_path = os.path.dirname(__file__)
         # take the relative path
-        self.curr_log_file = os.path.relpath('..\\data\\' + "all_logs.log", cur_path)
+        self.curr_log_file = "all_logs.log"#os.path.relpath('\\data\\' + "all_logs.log", cur_path)
 
     # Adds log objects into the list of log objects associated with one of the twenty two test cases.
     def add_test(self, log):
@@ -21,11 +21,10 @@ class TestsHolder:
         else:
             sys.stderr.write("Error: log parameter cannot be of type None\n")
         # check size of the current all_logs file
-        if os.path.isfile(self.curr_log_file):
-            statinfo = os.stat(self.curr_log_file).st_size
-            half_gig = 536870912
-            if int(statinfo) > half_gig:
-                self.transition_data()
+        statinfo = sys.getsizeof(self.all_tests)
+        half_gig = 10000#536870912
+        if int(statinfo) > half_gig:
+            self.transition_data()
 
     # Sort the list of queries by their timestamp
     def list_sorter(self):
@@ -35,7 +34,7 @@ class TestsHolder:
     # Save the logs to a file
     def save(self):
         if self.all_tests:
-            binary_file = open(self.curr_log_file, mode='wb')
+            binary_file = open("data/" + self.curr_log_file, mode='wb')
             pickle.dump(self.all_tests, binary_file)
             binary_file.close()
 
@@ -50,7 +49,6 @@ class TestsHolder:
                 self.all_tests = pickle.load(open(self.curr_log_file, "rb"))
             else:
                 sys.stderr.write("{} is an empty file".format(self.curr_log_file))
-                self.all_tests = None
         except IOError:
             sys.stderr.write("Error: No file exists to be loaded\n")
 
@@ -80,9 +78,13 @@ class TestsHolder:
 
     def transition_data(self):
         print("Transitioning to new log file....")
+        print("Saving...")
         self.save()
+        self.all_tests = {}
         data_dir = "data/"
-        log_num = len(self.get_log_files()) + 1
+        cur_path = os.path.dirname(__file__)
+        # take the relative path
+        log_num = len(self.get_log_files(os.path.relpath('..\\data\\', cur_path))) + 1
         self.curr_log_file = "{}{}{}{}".format(data_dir, "all_logs", log_num, ".log")
         print("Now storing data in %s", self.curr_log_file)
 
