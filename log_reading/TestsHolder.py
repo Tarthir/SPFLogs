@@ -29,7 +29,7 @@ class TestsHolder:
     # Save the logs to a file
     def save(self):
         if self.all_tests:
-            binary_file = open(self.curr_log_file, mode='wb')
+            binary_file = open("data/all_logs.log", mode='wb')
             pickle.dump(self.all_tests, binary_file)
             binary_file.close()
 
