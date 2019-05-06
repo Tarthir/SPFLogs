@@ -1,3 +1,5 @@
+import os
+
 from validation import States as s
 from validation.TestBase import TestBase
 from validation.state_objs.FailureState import FailureState
@@ -16,7 +18,10 @@ class Test19(TestBase):
         self.ipv_method = "."
         self.which_Test = "t19"
         self.gen_to_ip = {}
-        with open("new_true_domains.txt", "r") as f:
+        cur_path = os.path.dirname(__file__)
+        # take the relative path to new_true_domains
+        domains_path = os.path.relpath('..\\new_true_domains.txt', cur_path)
+        with open(domains_path, "r") as f:
             for line in f:
                 arr = line.split()
                 self.gen_to_ip[arr[2]] = arr[1]

@@ -3,6 +3,7 @@ import os
 import re
 import sys
 
+from RemoveFiles import removeDataFiles
 from log_reading import LogHolder as log, TestsHolder as tests
 
 # This file goes through log files that have been grepped to be apart of the spf-testset
@@ -28,13 +29,13 @@ query_file = sys.argv[1]
 domain_file = sys.argv[2]
 my_tests = tests.TestsHolder()
 dir_path = os.path.dirname(os.path.realpath(__file__))
-my_tests.load(dir_path)
-number_of_files = 1
+removeDataFiles()
 
 
 # go through a queries.log file and parse out every line grabbing pertinent data
 def read_file(f, my_tests):
-    for line in f.readlines():
+    line = f.readline()
+    while line:
         line = line.decode('utf-8').strip()
         matches = re.match(regex, line)
         if matches is not None:
@@ -43,6 +44,7 @@ def read_file(f, my_tests):
                 my_tests.add_test(my_log)
             except AttributeError as error:
                 sys.stderr.write("Error: %s\n" % str(error))
+        line = f.readline()
 
 
 def open_file(f, test_holder):
