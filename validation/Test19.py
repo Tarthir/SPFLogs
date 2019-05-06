@@ -15,6 +15,11 @@ class Test19(TestBase):
         self.sent_to = "N/A"
         self.ipv_method = "."
         self.which_Test = "t19"
+        self.gen_to_ip = {}
+        with open("new_true_domains.txt", "r") as f:
+            for line in f:
+                arr = line.split()
+                self.gen_to_ip[arr[2]] = arr[1]
 
     def do_testing(self, log_list):
         # call to super class
@@ -25,10 +30,11 @@ class Test19(TestBase):
         print(str(log))
         if isinstance(self.state, StartState) and "." in log.ip:
             self.state = do_state_change("to_ipv4", log, self.dyn_classes, self.get_test_result)
-            self.sent_to = self.state.name
+            # get the ip address associated with the generated name with an ip address in new_true_domains.txt
+            self.sent_to = self.gen_to_ip[log.generated_name]
         elif isinstance(self.state, StartState) and ":" in log.ip:
             self.state = do_state_change("to_ipv6", log, self.dyn_classes, self.get_test_result)
-            self.sent_to = self.state.name
+            self.sent_to = self.gen_to_ip[log.generated_name]
         elif self.state.name == "to_ipv6" or self.state.name == "to_ipv4" or isinstance(self.state, FailureState):
             # ipv_protocol is the label "ipv4" or "ipv6" that was in the query
             if log.rec_queried == s.States.TXT.value and log.ipv_protocol is not None:
@@ -37,4 +43,4 @@ class Test19(TestBase):
                 self.state = FailureState(log, self.get_test_result)
 
     def get_test_result(self, log, log_list):
-        return "{} Sent_to:{}  Protocol:{}".format(TestBase.get_test_result(self, log, log_list), self.sent_to, log.ipv_protocol)
+        return "{} new_true_ip:{}  Protocol:{}".format(TestBase.get_test_result(self, log, log_list), self.sent_to, log.ipv_protocol)
