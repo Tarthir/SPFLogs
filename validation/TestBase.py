@@ -18,6 +18,7 @@ class TestBase(ABC):
     def check_testing(self, log_list):
         self.state = StartState(log_list[0], self.get_test_result)
         for log in log_list:
+            print(str(log))
             self.test_def(log)
         return self.state.get_final_result(log_list)
 
@@ -30,5 +31,4 @@ class TestBase(ABC):
     # The method to be used in order to write results out to file
     @abstractmethod
     def get_test_result(self, log, log_list):
-        return "Gen:{:24} State:{:8} Level:{:18} Rec:{:6}".format(str(log.generated_name), str(self.state.name), str(self.state.ending_log.level),
-                                      str(self.state.ending_log.rec_queried))
+        return "Gen:{:24} State:{:8}".format(str(log.generated_name), str(self.state.name))

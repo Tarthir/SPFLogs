@@ -30,6 +30,15 @@ class Test01(BaseClass.TestBase):
         space = " "
         endline = "\n"
 
+        # get frequency of each record type
+        records = {}
+        for entry in log_list:
+            keys = records.keys()
+            rec = entry.rec_queried.upper()
+            if rec not in keys: # in case this is the first time we've seen this rec type
+                records[rec] = 0
+            records[rec] += 1 # this increases the frequency count of each rec type
+
         for entry in log_list:  # find if we have a txt query
             #print(entry.rec_queried.upper())
             #print(s.TXT.value)
@@ -61,8 +70,11 @@ class Test01(BaseClass.TestBase):
         # _______________in the future we can count the frequency of record types here________
 
         # Append the test results file
-        result = log_list[0].generated_name + space + bg_value + space + before_value + space + after_value + endline
-        f = open("./t01_results.txt", "a+")  # this will append to the t01 results file
+        frequency_string = ""
+        for keys in records:
+            frequency_string = frequency_string + keys + "=" + str(records[keys]) + " "
+        result = log_list[0].generated_name + space + bg_value + space + before_value + space + after_value + space + frequency_string + endline
+        f = open("./validation_results/t01_results.txt", "a+")  # this will append to the t01 results file
         f.write(result)
         f.flush()
         f.close()

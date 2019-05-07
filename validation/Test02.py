@@ -34,6 +34,15 @@ class Test02(BaseClass.TestBase):
         space = " "
         endline = "\n"
 
+        # get frequency of each record type
+        records = {}
+        for entry in log_list:
+            keys = records.keys()
+            rec = entry.rec_queried.upper()
+            if rec not in keys: # in case this is the first time we've seen this rec type
+                records[rec] = 0
+            records[rec] += 1 # this increases the frequency count of each rec type
+
         for entry in log_list:
             rec = entry.rec_queried.upper()
             time = entry.sec_from_1970
@@ -48,6 +57,8 @@ class Test02(BaseClass.TestBase):
                 first_bA_time = time
         print("txt: %s\t l1: %s\t bA: %s" % (str(first_txt_time), str(first_l1_txt_time), str(first_bA_time)))
         for entry in log_list:  # now we check for BG queries
+            if entry.level is not None and entry.level.lower() == "_dmarc":
+                continue
             time = entry.sec_from_1970
             rec = entry.rec_queried.upper()
             if rec == s.TXT.value or rec == s.SPF.value:  # we want to skip all text records and spf records
@@ -60,7 +71,8 @@ class Test02(BaseClass.TestBase):
                 bg_value = "BG"
                 after_l1_txt = "AFTER_L1"
                 continue
-            if time > first_bA_time and (rec is not s.AAAA.value or rec is not s.A.value):
+            if time > first_bA_time and entry.level is not "b" and (rec is not s.AAAA.value or rec is not s.A.value):
+                #print(rec)
                 bg_value = "BG"
                 after_bA = "AFTER_b"
         bool = True
@@ -74,9 +86,12 @@ class Test02(BaseClass.TestBase):
 
 
         # Append test results to file
+        frequency_string = ""
+        for keys in records:
+            frequency_string = frequency_string + keys + "=" + str(records[keys]) + " "
         result = log_list[
-                     0].generated_name + space + bg_value + space + before_l1_txt + space + after_l1_txt + space + after_bA + endline
-        f = open("./t02_results.txt", "a+")  # this will append to the t02 results file
+                     0].generated_name + space + bg_value + space + before_l1_txt + space + after_l1_txt + space + after_bA + space + frequency_string + endline
+        f = open("./validation_results/t02_results.txt", "a+")  # this will append to the t02 results file
         f.write(result)
         f.flush()
         f.close()

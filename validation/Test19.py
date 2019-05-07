@@ -33,6 +33,8 @@ class Test19(TestBase):
 
     def test_def(self, log):
         print(str(log))
+        print(type(log))
+        print(log.server_ip)
         if isinstance(self.state, StartState) and "." in log.ip:
             self.state = do_state_change("to_ipv4", log, self.dyn_classes, self.get_test_result)
             # get the ip address associated with the generated name with an ip address in new_true_domains.txt

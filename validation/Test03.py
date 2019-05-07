@@ -72,14 +72,14 @@ class Test03(BaseClass.TestBase):
         else:                                   # does not contain TXT query
             for entry in log_list:
                 if entry.rec_queried.upper() is not s.TXT.value or entry.rec_queried.upper() is not s.SPF.value:
-                    bg_value = "BG"
+                    bg_value = "BG_no_txt"
                     break
     # Append the test results file
         frequency_string = ""
         for keys in records:
             frequency_string = frequency_string + keys + "=" + str(records[keys]) + " "
         result = log_list[0].generated_name + space + bg_value + space + before_value + space + after_value + space + frequency_string + endline
-        f = open("./t03_results.txt", "a+")     # this will append to the t03 results file
+        f = open("./validation_results/t03_results.txt", "a+")     # this will append to the t03 results file
         f.write(result)
         f.flush()
         f.close()

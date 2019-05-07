@@ -16,9 +16,11 @@ class Test11(TestBase):
 
     def do_testing(self, log_list):
         # call to super class
+        print("\n")
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
+        print(str(log))
         if isinstance(self.state, StartState) and log.rec_queried == "TXT":
             self.queries_types = {"b", "c", "d", "e", "f"}  # restore the queries
             self.state = BaseState(log, self.get_test_result)
