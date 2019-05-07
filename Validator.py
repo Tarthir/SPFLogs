@@ -3,7 +3,7 @@ import sys
 
 from RemoveFiles import removeValidationFiles
 from log_reading import TestsHolder as tests
-from validation import Test01, Test02, Test03, Test04, Test05, Test06, Test07,Test08, Test09, Test10, Test11, Test12, Test13, Test14, Test15, Test16, Test17, Test18, Test19, Test20, Test21, Test22
+from validation import Test05, Test06, Test07, Test08, Test11, Test18, Test19
 
 #  This script is in charge of checking to see how far in the validation process each email server got for
 # each particular test
@@ -31,7 +31,11 @@ validation_testing_dict = {#"t01": Test01.Test01(None),
                             #"t21": Test21.Test21(),
                             #"t22": Test22.Test22()
                            }
-removeTheFiles() # removes all old result files in the current directory
+
+dependent_val_tests = {"t05": Test05.Test05(), "t06": Test06.Test06(),
+                       "t07": Test07.Test07(), "t08": Test08.Test08(),
+                       "t11": Test11.Test11(), "t18": Test18.Test18()  }
+removeValidationFiles() # removes all old result files in the current directory
 holder = tests.TestsHolder()
 print("Time To Validate...\n\nLoading the data...")
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -61,8 +65,5 @@ for key in sorted(holder.all_tests.keys()):
     except KeyError as err:
         sys.stderr.write("Validating KeyError with: %s\n" % str(err))
 
-        validation_testing_dict[test_num].do_testing(logs)
-    except KeyError as err:
-        sys.stderr.write("Validating KeyError with: %s\n" % str(err))
 
 print("Done Validating\n")
