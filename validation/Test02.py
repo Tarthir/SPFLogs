@@ -20,10 +20,10 @@ class Test02(BaseClass.TestBase):
         if len(log_list) == 0:  # the list is empty for some reason
             return
 
-        print("\n")
+        #print("\n")
         #print(log_list[0].generated_name)
-        for log in log_list:
-            print(str(log))
+        #for log in log_list:
+            #print(str(log))
         first_txt_time = math.inf
         first_l1_txt_time = math.inf
         first_bA_time = math.inf
@@ -55,7 +55,7 @@ class Test02(BaseClass.TestBase):
                 continue
             if entry.level is not None and (rec == s.A.value or rec == s.AAAA.value) and entry.level.lower() == "b" and first_bA_time == math.inf:
                 first_bA_time = time
-        print("txt: %s\t l1: %s\t bA: %s" % (str(first_txt_time), str(first_l1_txt_time), str(first_bA_time)))
+        #print("txt: %s\t l1: %s\t bA: %s" % (str(first_txt_time), str(first_l1_txt_time), str(first_bA_time)))
         for entry in log_list:  # now we check for BG queries
             if entry.level is not None and entry.level.lower() == "_dmarc":
                 continue

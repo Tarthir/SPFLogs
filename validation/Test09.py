@@ -27,12 +27,12 @@ class Test09(TestBase):
         return TestBase.get_test_result(self, log, log_list)
 
     def do_testing(self, log_list):
-        print("\n")
+        #print("\n")
         self.highest_level = -math.inf
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
-        print(str(log))
+        #print(str(log))
         if log.level is not None:
             if log.level[:1] == "l":
                 level_num = int(log.level[1:])

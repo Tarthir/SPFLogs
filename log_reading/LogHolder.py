@@ -85,4 +85,4 @@ class LogHolder:
     def __str__( self ):
         #return 'log(gen:{},test:{},level:{},record:{},time_1970:{})'.format(self.generated_name,self.test_name,self.level,self.rec_queried,self.sec_from_1970)
         #return 'log(gen:{},test:{},level:{},record:{},ip:{})'.format(self.generated_name,self.test_name,self.level,self.rec_queried,self.ip)
-        return 'log(gen:{},test:{},level:{},record:{},tcp:{},time:{},ip:{})'.format(self.generated_name,self.test_name,self.level,self.rec_queried,self.tcp, self.sec_from_1970,self.ip)
+        return 'log(gen:{},test:{},level:{},record:{},tcp:{},time:{},ip_proto:{})'.format(self.generated_name,self.test_name,self.level,self.rec_queried,self.tcp, self.sec_from_1970,self.ipv_protocol)

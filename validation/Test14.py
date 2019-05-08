@@ -13,12 +13,12 @@ class Test14(TestBase):
 
     def do_testing(self, log_list):
         # call to super class
-        print("\n")
+        #print("\n")
         self.holder = {"b", "c"}
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
-        print(str(log))
+        #print(str(log))
         if isinstance(self.state, StartState) and log.rec_queried == "TXT" and log.level is None:
             self.state = BaseState(log, self.get_test_result)
         elif check_a(log.rec_queried):

@@ -14,11 +14,11 @@ class Test07(TestBase):
         return TestBase.get_test_result(self, log, log_list)
 
     def do_testing(self, log_list):
-        print("\n")
+        #print("\n")
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
-        print(str(log))
+        #print(str(log))
         if isinstance(self.state, StartState) and log.rec_queried == "TXT":
             self.state = SuccessState(log, self.get_test_result)
         elif isinstance(self.state, SuccessState) and log.level == "b" and check_a(log.rec_queried):

@@ -18,9 +18,11 @@ class Test05(TestBase):
 
     def do_testing(self, log_list):
         # call to super class
+        #print("\n")
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
+        #print(str(log))
         # b means we have succeeded, all other queries are fine, no need to check
         if isinstance(self.state, StartState) and log.rec_queried == "TXT" and log.level == None:
             self.state = BaseState(log, self.get_test_result)

@@ -18,7 +18,7 @@ class TestBase(ABC):
     def check_testing(self, log_list):
         self.state = StartState(log_list[0], self.get_test_result)
         for log in log_list:
-            print(str(log))
+            #print(str(log))
             self.test_def(log)
         return self.state.get_final_result(log_list)
 

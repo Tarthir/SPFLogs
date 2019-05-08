@@ -15,7 +15,7 @@ class Test21(TestBase):
         self.last_node = None
         self.biggest_depth = -math.inf
         self.largest_branch = "a"
-        print("\n")
+        #print("\n")
         first = log_list[0]
         last = log_list[len(log_list)-1]
         self.timed_out = (last.sec_from_1970 - first.sec_from_1970 > 20)
@@ -25,7 +25,7 @@ class Test21(TestBase):
         else:
             self.state = FailureState(last, self.get_test_result)
         for log in log_list:
-            print(str(log))
+            #print(str(log))
             node = log.level
             #print("***log.level: %s\trec_type: %s**" % (node, log.rec_queried))
             stripped_node = None
@@ -37,13 +37,15 @@ class Test21(TestBase):
             if stripped_node == "l":
                 depth = int(node[1])
                 branch = node[2]
+                #print("depth: %s\tdeepest: %s" % (str(depth), str(self.biggest_depth)))
                 if depth >= self.biggest_depth:
                     self.biggest_depth = depth
                 else: continue
+                #print("branch: %s\tlargest: %s" % (str(branch), str(self.largest_branch)))
                 if branch > self.largest_branch:
                     self.largest_branch = branch
                 self.last_node = "l" + str(self.biggest_depth) + self.largest_branch
-        print("***Last Node: %s" % self.last_node)
+        #print("***Last Node: %s" % self.last_node)
 
         self.state.get_final_result(log_list)
 

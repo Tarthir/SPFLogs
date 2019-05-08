@@ -18,18 +18,25 @@ class Test17(TestBase):
 
     def do_testing(self, log_list):
         # call to super class
-        print("\n")
+        #print("\n")
         self.counter = 0
+        self.last_level = "None"
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
-        print(str(log))
-        if isinstance(self.state, StartState) and log.level is None and log.rec_queried == "TXT":
-            self.state = BaseState(log, self.get_test_result)
-        elif log.level == "b" and check_a(log.rec_queried):
-            self.counter += 1
-        else:
-            self.state = do_state_change(log.level, log, self.dyn_classes, self.get_test_result)
+        try:
+            #print(str(log))
+            if isinstance(self.state, StartState) and log.level is None and log.rec_queried == "TXT":
+                self.state = BaseState(log, self.get_test_result)
+            elif log.level == "b" and check_a(log.rec_queried) and self.last_level != "b":
+                self.counter += 1
+            elif log.level is None or log.level == "b":
+                pass
+            else:
+                self.state = do_state_change(log.level, log, self.dyn_classes, self.get_test_result)
+            self.last_level = log.level
+        except Exception as e:
+            print("----Error: %s" % str(e))
 
     def get_test_result(self, log, log_list):
         cache = ""

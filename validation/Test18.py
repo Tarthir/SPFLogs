@@ -9,12 +9,12 @@ class Test18(TestBase):
 
     def do_testing(self, log_list):
         # call to super class
-        print("\n")
+        #print("\n")
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
         # Success means they had the tcp flag
-        print(str(log))
+        #print(str(log))
         if log.tcp == "T":
             self.state = SuccessState(log, self.get_test_result)
         # only fail if we have not already succeeded, just in case

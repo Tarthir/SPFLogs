@@ -26,17 +26,15 @@ class Test13(TestBase):
 
     def do_testing(self, log_list):
         # call to super class
-        print("\n")
+        #print("\n")
         self.counter = 0
         self.holder = set()
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
-        print(str(log))
-
-
+        #print(str(log))
         if log.level is not None:
-            print(log.level[:-2])
+            #print(log.level[:-2])
             if log.level[:-2] == "mail":
                 if log.level in self.holder:
                     pass

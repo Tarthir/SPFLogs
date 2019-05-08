@@ -14,34 +14,32 @@ class Test19(TestBase):
         TestBase.__init__(self, self.test_def)
         self.dyn_classes = {"to_ipv4": get_class("to_ipv4"),
                             "to_ipv6": get_class("to_ipv6")}
-        self.sent_to = "N/A"
         self.ipv_method = "."
         self.which_Test = "t19"
         self.gen_to_ip = {}
         cur_path = os.path.dirname(__file__)
         # take the relative path to new_true_domains
-        domains_path = os.path.relpath('..\\new_true_domains.txt', cur_path)
-        with open(domains_path, "r") as f:
+        cur_path = cur_path + "/new_true_domains.txt"
+        with open(cur_path, "r") as f:
             for line in f:
                 arr = line.split()
                 self.gen_to_ip[arr[2]] = arr[1]
 
     def do_testing(self, log_list):
         # call to super class
-        print("\n")
+        self.sent_to = self.gen_to_ip[log_list[0].generated_name]
+        #print("\n")
         return TestBase.check_testing(self, log_list)
 
     def test_def(self, log):
-        print(str(log))
-        print(type(log))
-        print(log.server_ip)
-        if isinstance(self.state, StartState) and "." in log.ip:
+        #print(str(log))
+        if isinstance(self.state, StartState) and "." in self.sent_to:
             self.state = do_state_change("to_ipv4", log, self.dyn_classes, self.get_test_result)
+            self.sent_to = "to_ipv4"
             # get the ip address associated with the generated name with an ip address in new_true_domains.txt
-            self.sent_to = self.gen_to_ip[log.generated_name]
-        elif isinstance(self.state, StartState) and ":" in log.ip:
+        elif isinstance(self.state, StartState) and ":" in self.sent_to:
             self.state = do_state_change("to_ipv6", log, self.dyn_classes, self.get_test_result)
-            self.sent_to = self.gen_to_ip[log.generated_name]
+            self.sent_to = "to_ipv6"
         elif self.state.name == "to_ipv6" or self.state.name == "to_ipv4" or isinstance(self.state, FailureState):
             # ipv_protocol is the label "ipv4" or "ipv6" that was in the query
             if log.rec_queried == s.States.TXT.value and log.ipv_protocol is not None:
@@ -50,4 +48,4 @@ class Test19(TestBase):
                 self.state = FailureState(log, self.get_test_result)
 
     def get_test_result(self, log, log_list):
-        return "{} new_true_ip:{}  Protocol:{}".format(TestBase.get_test_result(self, log, log_list), self.sent_to, log.ipv_protocol)
+        return "{} sent_to:{}  Protocol:{}".format(TestBase.get_test_result(self, log, log_list), self.sent_to, log.ipv_protocol)

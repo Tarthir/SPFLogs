@@ -20,10 +20,10 @@ class Test03(BaseClass.TestBase):
         if len(log_list) == 0:                  # the list is empty for some reason
             return
 
-        print("\n")
+        #print("\n")
         #print(log_list[0].generated_name)
-        for log in log_list:
-            print(str(log))
+        #for log in log_list:
+            #print(str(log))
 
         first_txt_time = None
         bg_value = "NO_BG"             # were there any bg's period
@@ -59,13 +59,12 @@ class Test03(BaseClass.TestBase):
                         bg_value = "BG"
                         before_value = "BEFORE"
                         continue
-                print("txt: %s\tafter: %s" % (str(first_txt_time), str(entry.sec_from_1970)))
-                print("rec: %s\tSPF.value: %s" % (rec, s.SPF.value))
+                #print("txt: %s\tafter: %s" % (str(first_txt_time), str(entry.sec_from_1970)))
+                #print("rec: %s\tSPF.value: %s" % (rec, s.SPF.value))
                 if entry.sec_from_1970 > first_txt_time: #entries that came after first txt
                     if rec == s.TXT.value or rec == s.SPF.value:
                         continue
                     else:
-                        print("why")
                         bg_value = "BG"
                         after_value = "AFTER"
                         continue

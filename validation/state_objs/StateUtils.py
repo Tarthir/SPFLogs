@@ -27,7 +27,11 @@ def get_class(name):
 
 # Easily change the state of a dynamic state object
 def do_state_change(name, log, dyn, func):
+    #print("In do_state_change")
+    #print(name)
     new_state = dyn[name]
+    #print(dyn)
+    #print("new_state: %s" % new_state)
     new_state.ending_log = log
     new_state.get_result_method = func
     return new_state

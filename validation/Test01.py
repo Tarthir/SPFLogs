@@ -16,13 +16,12 @@ class Test01(BaseClass.TestBase):
         pass
 
     def check_testing(self, log_list):
-        #print("*** in T01 Class ***")
         if len(log_list) == 0:  # the list is empty for some reason
             return
-        print("\n")
+        #print("\n")
         #print(log_list[0].generated_name)
-        for log in log_list:
-            print(str(log))
+        #for log in log_list:
+            #print(str(log))
         first_txt_time = None
         bg_value = "NO_BG"  # were there any bg's period
         before_value = "None"  # bg's came before first txt query
